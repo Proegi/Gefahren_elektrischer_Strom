@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gefahren durch elektrischen Strom</title>
+<!-- Loesung: Gefahren_elektrischer_Strom_Loesung.md -->
+<style>
+  :root{
+    --paper:#E4E6E1;
+    --card:#FAFAF8;
+    --card-2:#F1F2EE;
+    --ink:#15181B;
+    --ink-2:#5C6169;
+    --ink-3:#8A8F95;
+    --line:#C7CAC3;
+    --line-2:#DEE0DA;
+    --pink:#D6437E;
+    --ok:#1E6B4F;
+    --warn:#9E6A12;
+    --bad:#B32C22;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+    --sans:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.55;
+    background:
+      repeating-linear-gradient(45deg,
+        rgba(21,24,27,.028) 0 7px,
+        rgba(21,24,27,0) 7px 15px),
+      var(--paper);
+  }
+  .sheet{max-width:980px;margin:0 auto;padding:34px 22px 40px;}
+
+  header.top{
+    background:var(--card);border:1px solid var(--ink);
+    box-shadow:5px 5px 0 rgba(21,24,27,.14);
+    padding:20px 22px;margin-bottom:34px;
+  }
+  header.top .kicker{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-3);margin-bottom:8px;
+  }
+  header.top h1{font-size:1.6rem;font-weight:650;letter-spacing:-.015em;margin:0 0 6px;}
+  header.top p{margin:0;color:var(--ink-2);font-size:.9rem;}
+  .kopf-knoepfe{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  .vt-btn{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    padding:8px 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;border-radius:0;
+  }
+  .vt-btn:hover{background:rgba(21,24,27,.08);}
+
+  section.task{
+    background:var(--card);border:1px solid var(--ink);
+    box-shadow:5px 5px 0 rgba(21,24,27,.14);
+    padding:22px 22px 26px;margin-bottom:34px;
+  }
+  .task-head{border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:18px;}
+  .task-head .num{
+    display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--pink);margin-bottom:4px;
+  }
+  .task-head h2{font-size:1.18rem;font-weight:650;margin:0;}
+
+  .info{background:var(--card-2);border:1px solid var(--line);padding:14px 16px;margin-bottom:16px;font-size:.95rem;}
+  .info p{margin:0 0 8px;}
+  .info p:last-child{margin-bottom:0;}
+
+  .step{margin-bottom:30px;}
+  .step:last-child{margin-bottom:0;}
+  .step h3{
+    font-family:var(--mono);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
+    font-weight:700;margin:0 0 8px;color:var(--ink);
+  }
+  .step p{margin:0 0 10px;}
+  .case{font-size:.93rem;color:var(--ink-2);margin:0 0 8px;}
+
+  .answer{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;}
+  input[type=text],select{
+    font-family:var(--mono);font-size:.92rem;padding:7px 9px;
+    border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:0;
+  }
+  select{padding:6px 6px;}
+  input[type=text]:focus,select:focus{outline:2px solid var(--pink);outline-offset:1px;}
+  input.ok,select.ok{border-color:var(--ok);background:#EEF6F1;}
+  input.bad,select.bad{border-color:var(--bad);background:#FAEFEE;}
+
+  button.check{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    padding:9px 16px;border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;border-radius:0;
+  }
+  button.check:hover{background:#000;}
+  button.check:focus-visible{outline:2px solid var(--pink);outline-offset:2px;}
+
+  .msg{font-size:.88rem;min-height:1.3em;margin-top:8px;white-space:pre-line;}
+  .msg.ok{color:var(--ok);font-weight:600;}
+  .msg.hint{color:var(--warn);}
+
+  table.grid{border-collapse:collapse;width:100%;font-size:.9rem;}
+  table.grid th{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--ink);color:#fff;text-align:left;padding:7px 9px;font-weight:700;
+  }
+  table.grid td{border-bottom:1px solid var(--line-2);padding:6px 9px;vertical-align:middle;background:#fff;}
+  table.grid input[type=text]{width:100%;min-width:5.5rem;}
+  table.grid input.w-ber{width:3.4rem;min-width:0;text-align:center;}
+  table.grid td.tat{font-family:var(--sans);min-width:14rem;}
+  table.grid td.rad{text-align:center;width:5.5rem;}
+  table.grid td.rad input{width:17px;height:17px;accent-color:var(--pink);}
+  table.grid tr.ok td.rad{background:#EEF6F1;}
+  table.grid tr.bad td.rad{background:#FAEFEE;}
+  table.grid td.bg{min-width:12rem;}
+  table.grid td .freitext{min-height:2.6em;margin-top:0;}
+  table.grid td.mono{font-family:var(--mono);white-space:nowrap;}
+  .scroll{overflow-x:auto;}
+
+  table.own{border-collapse:collapse;width:100%;font-size:.92rem;}
+  table.own td{border-bottom:1px solid var(--line-2);padding:6px 9px;vertical-align:middle;}
+  table.own td.lab{width:22rem;color:var(--ink-2);}
+  table.own td.unit{width:4rem;color:var(--ink-2);font-family:var(--mono);font-size:.88rem;}
+  table.own input[type=text]{width:9rem;}
+
+  .choices{display:flex;flex-wrap:wrap;gap:8px 22px;margin:8px 0 4px;}
+  .choices label{font-size:.94rem;display:flex;gap:8px;align-items:center;cursor:pointer;font-family:var(--mono);}
+  .choices label.ok{color:var(--ok);}
+  .choices label.bad{color:var(--bad);}
+  input[type=checkbox]{width:17px;height:17px;accent-color:var(--pink);flex:0 0 auto;}
+
+  .freitext{
+    min-height:4.6em;border:1px solid var(--line);background:#fff;padding:8px 10px;
+    font-family:var(--sans);font-size:.95rem;white-space:pre-wrap;margin-top:6px;
+  }
+  .freitext:focus{outline:2px solid var(--pink);outline-offset:1px;}
+  .freitext[data-platzhalter]:empty::before{content:attr(data-platzhalter);color:var(--ink-3);}
+
+  ul.sit{margin:0 0 12px;padding-left:0;list-style:none;font-size:.95rem;}
+  ul.sit li{margin-bottom:6px;display:flex;gap:10px;}
+  ul.sit li b{font-family:var(--mono);color:var(--pink);flex:0 0 auto;}
+  blockquote.fall{margin:0 0 14px;background:var(--card-2);border:1px solid var(--line);border-left:4px solid var(--pink);padding:12px 16px;font-size:.95rem;}
+  details.tipp{margin-top:8px;font-size:.9rem;}
+  details.tipp summary{cursor:pointer;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);}
+  details.tipp div{padding:6px 0 0 2px;font-family:var(--mono);}
+
+  /* Simulator */
+  .sim{border:1px solid var(--ink);background:#fff;padding:16px;margin:4px 0 18px;}
+  .sim-oben{display:grid;grid-template-columns:2fr 3fr;gap:16px;align-items:center;}
+  .sim-formel{text-align:center;font-family:Georgia,"Times New Roman",serif;font-style:italic;line-height:1;height:7.5rem;display:flex;align-items:center;justify-content:center;gap:.25em;color:var(--ink);}
+  .sim-formel span{display:inline-block;transition:font-size .15s;}
+  .sim-formel .op{font-style:normal;color:var(--ink-3);font-size:2rem;}
+  .sim-formel .fU{color:#1F5FAF;}
+  .sim-formel .fR{color:#7A3FA8;}
+  .sim-formel .fI{color:var(--pink);}
+  svg.kreis{width:100%;height:auto;display:block;}
+  .sim-regler{margin-top:12px;}
+  .sim-zeile{display:grid;grid-template-columns:8.5rem 1fr 8rem 2.4rem;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--line-2);}
+  .sim-zeile .lab{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;}
+  .sim-zeile .lab b{font-family:Georgia,serif;font-style:italic;font-size:1.05rem;}
+  .sim-zeile input[type=range]{width:100%;accent-color:var(--pink);}
+  .sim-zeile input[type=text]{width:100%;text-align:right;}
+  .sim-zeile .einh{font-family:var(--mono);font-size:.88rem;color:var(--ink-2);}
+  .sim-zeile.berechnet input[type=text]{background:#FBE4EC;border-color:var(--pink);font-weight:700;}
+  .sim-zeile.berechnet .lab::after{content:"ergibt sich";display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pink);}
+
+  /* Koerper */
+  .weg-box{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:20px;align-items:start;}
+  ul.wege{list-style:none;margin:0;padding:0;}
+  ul.wege li{display:flex;gap:10px;padding:10px 12px;border:1px solid var(--line);background:#fff;margin-bottom:8px;cursor:pointer;font-size:.95rem;}
+  ul.wege li b{font-family:var(--mono);color:var(--pink);}
+  ul.wege li:hover,ul.wege li:focus-visible{border-color:var(--ink);outline:none;}
+  ul.wege li.aktiv{border-color:var(--pink);background:#FBE4EC;}
+  .koerper-wrap{border:1px solid var(--line);background:#fff;padding:8px;}
+  .koerper-wrap p{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--ink-3);text-align:center;margin:4px 0 0;}
+  svg.koerper{width:100%;height:auto;display:block;}
+  svg.koerper .leib{fill:#CDD0C9;stroke:#CDD0C9;}
+  svg.koerper .herz{fill:#E8D3D6;stroke:#B9A2A6;stroke-width:1;transition:fill .2s;}
+  svg.koerper .herz.an{fill:var(--bad);stroke:var(--bad);animation:puls .8s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
+  svg.koerper .strom{fill:none;stroke:var(--bad);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:9 6;opacity:0;animation:fluss .5s linear infinite;}
+  svg.koerper .zoom{opacity:0;}
+  svg.koerper .an{opacity:1;}
+  svg.koerper .punkt{fill:var(--bad);opacity:0;}
+  @keyframes fluss{to{stroke-dashoffset:-15;}}
+  @keyframes puls{50%{transform:scale(1.18);}}
+
+  /* Typenschilder */
+  .geraete{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
+  .geraet{border:1px solid var(--line);background:#fff;padding:12px 12px 14px;}
+  .geraet.ok{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok);}
+  .geraet.bad{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad);}
+  .geraet h4{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px;}
+  .geraet .taetig{font-size:.92rem;margin:0 0 10px;}
+  .schild{background:#2B2F33;color:#E9ECE6;font-family:var(--mono);font-size:.82rem;padding:8px;border-radius:3px;margin-bottom:10px;}
+  .schild .marke{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#9FA5AB;padding:0 6px 4px;border-bottom:1px solid #4A5056;margin-bottom:4px;}
+  .schild .zeile{padding:3px 6px;}
+  .dc{display:inline-block;width:.95em;height:.5em;border-top:2px solid currentColor;position:relative;vertical-align:.1em;margin-left:.15em;}
+  .dc::after{content:"";position:absolute;left:0;right:0;top:.22em;border-top:2px dotted currentColor;}
+  .g-felder{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;font-size:.86rem;}
+  .g-felder span{color:var(--ink-2);}
+  .g-felder .u{display:flex;align-items:center;gap:6px;font-family:var(--mono);}
+  .g-felder input[type=text]{width:6rem;}
+  .g-felder select{width:100%;}
+
+  @media (max-width:700px){
+    .sheet{padding:22px 13px 30px;}
+    table.own td.lab{width:auto;}
+    .sim-oben{grid-template-columns:1fr;}
+    .sim-zeile{grid-template-columns:6.5rem 1fr 6rem 2rem;}
+    .weg-box{grid-template-columns:1fr;}
+    .koerper-wrap{max-width:260px;margin:0 auto;}
+  }
+  @media print{
+    @page{margin:14mm;}
+    body{background:#fff;font-size:10.5pt;}
+    .sheet{max-width:none;padding:0;}
+    .noprint,button.check,details.tipp,.vt-tools{display:none!important;}
+    section.task,header.top{box-shadow:none;margin-bottom:16px;}
+    .step,.info,blockquote.fall,.geraet,.sim,.weg-box,table.grid tr,table.own tr,.freitext,ul.sit,.choices{break-inside:avoid;page-break-inside:avoid;}
+    .task-head,.step h3,blockquote.fall{break-after:avoid;page-break-after:avoid;}
+    .freitext{min-height:2.4em;border:1px solid #888;}
+    .step.step-lang{break-inside:auto;page-break-inside:auto;}
+    .msg:empty{display:none;}
+    .scroll{overflow:visible;}
+    table.grid{font-size:.82rem;}
+    .schild{background:#fff;color:#000;border:1px solid #555;}
+    .schild .marke{color:#555;border-color:#aaa;}
+    table.grid th{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    svg.koerper .strom{animation:none;}
+    svg.koerper .herz.an{animation:none;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="top">
+  <div class="kicker">Lernfeld 2</div>
+  <h1>Gefahren durch elektrischen Strom</h1>
+  <p>Deine Eingaben werden nur lokal in diesem Browser gespeichert. Sichere deine Ergebnisse selbst, denn beim Löschen der Browserdaten gehen sie verloren. Am Ende gibst du das bearbeitete Blatt als Ausdruck oder PDF ab.</p>
+  <div class="kopf-knoepfe noprint"><button type="button" class="vt-btn" onclick="window.print()">PDF speichern</button><button type="button" class="vt-btn vt-wipe-btn">Alle Eingaben löschen</button></div>
+</header>
+
+<section class="task" id="t0">
+  <div class="info"><p>Lies im Buch die Seiten 391 bis 393 (oben) und bearbeite anschließend die Aufgaben.</p></div>
+</section>
+
+<!-- ================= AUFGABE 1 ================= -->
+<section class="task" id="t1">
+  <div class="task-head">
+    <span class="num">Aufgabe 1</span>
+    <h2>Was bedeutet eigentlich Ohm?</h2>
+  </div>
+  <div class="step">
+    <p class="case">Der Widerstand <i>R</i> gibt an, wie stark etwas den Stromfluss behindert. Gemessen wird er in Ohm (&Omega;). Spannung <i>U</i>, Widerstand <i>R</i> und Stromstärke <i>I</i> hängen über das ohmsche Gesetz zusammen. Probiere es im Simulator aus. Stelle Spannung und Widerstand mit den Reglern oder durch Eintippen ein. Die Stromstärke ergibt sich daraus.</p>
+    <div class="sim" id="sim">
+      <div class="sim-oben">
+        <div class="sim-formel" aria-hidden="true"><span class="fU" id="f-u">U</span><span class="op">=</span><span class="fR" id="f-r">R</span><span class="op">&middot;</span><span class="fI" id="f-i">I</span></div>
+        <svg class="kreis" viewBox="0 0 360 190" aria-label="Stromkreis mit Spannungsquelle, Widerstand und Strommessgerät">
+          <rect x="30" y="35" width="300" height="130" fill="none" stroke="#15181B" stroke-width="2.5"/>
+          <rect x="130" y="10" width="140" height="50" fill="#F3ECF8" stroke="#15181B" stroke-width="2.5"/>
+          <g id="k-hind"></g>
+          <g id="k-dots"></g>
+          <g id="k-pfeile"></g>
+          <rect x="14" y="70" width="32" height="60" fill="#fff" stroke="#15181B" stroke-width="2.5"/>
+          <line x1="22" y1="86" x2="38" y2="86" stroke="#1F5FAF" stroke-width="2.5"/>
+          <line x1="30" y1="78" x2="30" y2="94" stroke="#1F5FAF" stroke-width="2.5"/>
+          <line x1="22" y1="114" x2="38" y2="114" stroke="#1F5FAF" stroke-width="2.5"/>
+          <path id="k-upfeil" fill="#1F5FAF" d=""/>
+          <text x="74" y="104" font-family="Consolas,monospace" font-size="12" fill="#1F5FAF" id="k-u">U</text>
+          <text x="200" y="80" text-anchor="middle" font-family="Consolas,monospace" font-size="12" fill="#7A3FA8" id="k-r">R</text>
+          <circle cx="180" cy="165" r="12" fill="#fff" stroke="#15181B" stroke-width="2"/>
+          <text x="180" y="169.5" text-anchor="middle" font-family="Consolas,monospace" font-size="13" font-weight="700" fill="#15181B">A</text>
+          <text x="180" y="145" text-anchor="middle" font-family="Consolas,monospace" font-size="12" fill="#D6437E" id="k-i">I</text>
+        </svg>
+      </div>
+      <div class="sim-regler">
+        <div class="sim-zeile" data-g="U"><div class="lab"><b>U</b> Spannung</div><input type="range" class="sim-range" id="sim-u-r" min="0" max="1000" step="1" aria-label="Regler Spannung"><input type="text" id="sim-u" inputmode="decimal" autocomplete="off" aria-label="Spannung in Volt"><span class="einh">V</span></div>
+        <div class="sim-zeile" data-g="R"><div class="lab"><b>R</b> Widerstand</div><input type="range" class="sim-range" id="sim-r-r" min="0" max="1000" step="1" aria-label="Regler Widerstand"><input type="text" id="sim-r" inputmode="decimal" autocomplete="off" aria-label="Widerstand in Ohm"><span class="einh">&Omega;</span></div>
+        <div class="sim-zeile" data-g="I"><div class="lab"><b>I</b> Stromstärke</div><input type="range" class="sim-range" id="sim-i-r" min="0" max="1000" step="1" disabled tabindex="-1" aria-label="Regler Stromstärke"><input type="text" id="sim-i" readonly tabindex="-1" inputmode="decimal" autocomplete="off" aria-label="Stromstärke in Milliampere"><span class="einh">mA</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <h3>Ausprobieren</h3>
+    <p>Überlege zuerst, was passieren wird, und überprüfe deine Vermutung dann im Simulator.</p>
+    <div class="scroll"><table class="own">
+      <tr><td class="lab">Bei 1000 &Omega; wird die Spannung von 10 V auf 20 V erhöht. Die Stromstärke &hellip;</td><td><select id="o-1" aria-label="Spannung verdoppelt"><option value=""></option><option value="halb">halbiert sich</option><option value="gleich">bleibt gleich</option><option value="vier">vervierfacht sich</option><option value="doppelt">verdoppelt sich</option></select></td><td class="unit"></td></tr>
+      <tr><td class="lab">Bei 10 V wird der Widerstand von 500 &Omega; auf 1000 &Omega; erhöht. Die Stromstärke &hellip;</td><td><select id="o-2" aria-label="Widerstand verdoppelt"><option value=""></option><option value="doppelt">verdoppelt sich</option><option value="halb">halbiert sich</option><option value="gleich">bleibt gleich</option><option value="vier">vervierfacht sich</option></select></td><td class="unit"></td></tr>
+      <tr><td class="lab">Durch einen Widerstand von 1 k&Omega; fließt bei einer Spannung von 1 V ein Strom von</td><td><input type="text" id="o-3" inputmode="decimal" autocomplete="off" aria-label="Strom bei 1 Kiloohm und 1 Volt"></td><td class="unit">mA</td></tr>
+      <tr><td class="lab">Daraus folgt: Durch einen Widerstand von 1 &Omega; fließt bei einer Spannung von 1 V ein Strom von</td><td><input type="text" id="o-5" inputmode="decimal" autocomplete="off" aria-label="Strom bei 1 Ohm und 1 Volt"></td><td class="unit">A</td></tr>
+      <tr><td class="lab">Damit bei 12 V genau 4 mA fließen, muss der Widerstand so groß sein:</td><td><input type="text" id="o-4" inputmode="decimal" autocomplete="off" aria-label="Widerstand für 4 mA bei 12 V"></td><td class="unit">&Omega;</td></tr>
+    </table></div>
+    <div class="answer"><button class="check" data-check="o">Prüfen</button></div>
+    <div class="msg" id="msg-o"></div>
+  </div>
+</section>
+
+<!-- ================= AUFGABE 2 ================= -->
+<section class="task" id="t2">
+  <div class="task-head">
+    <span class="num">Aufgabe 2</span>
+    <h2>Wie gefährlich ist das?</h2>
+  </div>
+  <div class="step">
+    <p class="case">Rechne in dieser Aufgabe mit einem Körperwiderstand von 1 k&Omega; (1000 &Omega;). Bei allen Situationen fließt der Strom von einer Hand zur anderen.</p>
+    <p>Berechne die Stromstärke und bestimme mit der Tabelle „Gefahren des elektrischen Stromes“ im Buch den Bereich und die Wirkung auf den Körper.</p>
+    <div class="scroll"><table class="grid">
+      <tr><th>Situation</th><th>Spannung</th><th>Stromstärke in mA</th><th>Bereich</th><th>Wirkung</th></tr>
+      <tr><td class="tat">Beide Hände berühren die Kontakte einer Steckdose.</td><td class="mono">230 V</td><td><input type="text" id="s1-i" inputmode="decimal" autocomplete="off" aria-label="Stromstärke Steckdose"></td><td><input type="text" id="s1-b" class="w-ber" inputmode="numeric" autocomplete="off" aria-label="Bereich Steckdose"></td><td><select id="s1-w" aria-label="Wirkung Steckdose"></select></td></tr>
+      <tr><td class="tat">Mit nassen Fingern beider Hände an die Pole eines 9-V-Blocks fassen.</td><td class="mono">9 V</td><td><input type="text" id="s2-i" inputmode="decimal" autocomplete="off" aria-label="Stromstärke 9-V-Block"></td><td><input type="text" id="s2-b" class="w-ber" inputmode="numeric" autocomplete="off" aria-label="Bereich 9-V-Block"></td><td><select id="s2-w" aria-label="Wirkung 9-V-Block"></select></td></tr>
+      <tr><td class="tat">Eine heruntergerissene Oberleitung der Bahn wird mit beiden Händen berührt.</td><td class="mono">15&nbsp;000 V</td><td><input type="text" id="s3-i" inputmode="decimal" autocomplete="off" aria-label="Stromstärke Oberleitung"></td><td><input type="text" id="s3-b" class="w-ber" inputmode="numeric" autocomplete="off" aria-label="Bereich Oberleitung"></td><td><select id="s3-w" aria-label="Wirkung Oberleitung"></select></td></tr>
+      <tr><td class="tat">Die blanken Adern eines PoE-Netzwerkkabels werden mit beiden Händen angefasst.</td><td class="mono">48 V</td><td><input type="text" id="s4-i" inputmode="decimal" autocomplete="off" aria-label="Stromstärke PoE"></td><td><input type="text" id="s4-b" class="w-ber" inputmode="numeric" autocomplete="off" aria-label="Bereich PoE"></td><td><select id="s4-w" aria-label="Wirkung PoE"></select></td></tr>
+      <tr><td class="tat">Plus- und Minuspol einer Mignonbatterie werden mit beiden Händen berührt.</td><td class="mono">1,5 V</td><td><input type="text" id="s5-i" inputmode="decimal" autocomplete="off" aria-label="Stromstärke Mignonbatterie"></td><td><input type="text" id="s5-b" class="w-ber" inputmode="numeric" autocomplete="off" aria-label="Bereich Mignonbatterie"></td><td><select id="s5-w" aria-label="Wirkung Mignonbatterie"></select></td></tr>
+      <tr><td class="tat">Im geöffneten PC berühren beide Hände eine Leitung zum Mainboard und das Gehäuse.</td><td class="mono">12 V</td><td><input type="text" id="s6-i" inputmode="decimal" autocomplete="off" aria-label="Stromstärke PC-Leitung"></td><td><input type="text" id="s6-b" class="w-ber" inputmode="numeric" autocomplete="off" aria-label="Bereich PC-Leitung"></td><td><select id="s6-w" aria-label="Wirkung PC-Leitung"></select></td></tr>
+    </table></div>
+    <div class="answer"><button class="check" data-check="s">Prüfen</button></div>
+    <div class="msg" id="msg-s"></div>
+  </div>
+
+  <div class="step">
+    <h3>Grenzen</h3>
+    <p>Bestimme, ab welcher Spannung bei einem Körperwiderstand von 1 k&Omega; die genannte Grenze erreicht wird.</p>
+    <div class="scroll"><table class="own">
+      <tr><td class="lab">Loslassgrenze</td><td><input type="text" id="g-los" inputmode="decimal" autocomplete="off" aria-label="Spannung an der Loslassgrenze"></td><td class="unit">V</td></tr>
+      <tr><td class="lab">Beginn von Bereich 3</td><td><input type="text" id="g-b3" inputmode="decimal" autocomplete="off" aria-label="Spannung am Beginn von Bereich 3"></td><td class="unit">V</td></tr>
+    </table></div>
+    <div class="answer"><button class="check" data-check="g">Prüfen</button></div>
+    <div class="msg" id="msg-g"></div>
+  </div>
+</section>
+
+<!-- ================= AUFGABE 3 ================= -->
+<section class="task" id="t3">
+  <div class="task-head">
+    <span class="num">Aufgabe 3</span>
+    <h2>Anfassen oder berühren?</h2>
+  </div>
+  <div class="step">
+    <p class="case">Zwei Auszubildende kommen in derselben Werkstatt an ein beschädigtes Kabel. Durch beide fließt ein Strom von 15 mA.</p>
+    <ul class="sit"><li><b>&middot;</b><span>Lena greift nach dem Kabel und umfasst es mit der Hand.</span></li><li><b>&middot;</b><span>Tom streift die beschädigte Stelle versehentlich mit dem Handrücken.</span></li></ul>
+  </div>
+  <div class="step">
+    <p>Beurteile, wer von beiden in größerer Gefahr ist, und begründe.</p>
+    <div class="scroll"><table class="own"><tr><td class="lab">In größerer Gefahr ist</td><td><select id="a3-wer" aria-label="In größerer Gefahr ist"><option value=""></option><option value="Tom">Tom</option><option value="Lena">Lena</option></select></td><td class="unit"></td></tr></table></div>
+    <div class="answer"><button class="check" data-check="lt">Prüfen</button></div>
+    <div class="msg" id="msg-lt"></div><div class="freitext" id="a3-begr" contenteditable="true" data-platzhalter="Deine Begründung"></div>
+  </div>
+</section>
+
+<!-- ================= AUFGABE 4 ================= -->
+<section class="task" id="t4">
+  <div class="task-head">
+    <span class="num">Aufgabe 4</span>
+    <h2>Der Weg des Stroms</h2>
+  </div>
+  <div class="step">
+    <p class="case">Fahre mit der Maus über eine Situation oder tippe sie an, um den Stromweg im Körper zu sehen.</p>
+    <div class="weg-box">
+      <ul class="wege" id="wege">
+        <li data-weg="A" tabindex="0"><b>A</b><span>Beim Abisolieren einer Leitung fließt Strom vom Daumen zum Zeigefinger der rechten Hand.</span></li>
+        <li data-weg="B" tabindex="0"><b>B</b><span>Eine Technikerin hält mit der linken Hand ein Gehäuse und berührt mit der rechten Hand ein spannungsführendes Teil. Der Strom fließt von der rechten zur linken Hand.</span></li>
+        <li data-weg="C" tabindex="0"><b>C</b><span>Ein Techniker steht auf feuchtem Boden und berührt mit der rechten Hand ein spannungsführendes Teil. Der Strom fließt von der rechten Hand zum rechten Fuß.</span></li>
+      </ul>
+      <div class="koerper-wrap">
+        <svg class="koerper" viewBox="0 0 240 400" role="img" aria-label="Piktogramm eines Menschen von vorn mit Stromweg">
+          <g class="leib">
+            <circle cx="120" cy="40" r="24"/>
+            <rect x="110" y="60" width="20" height="16"/>
+            <rect x="82" y="72" width="76" height="146" rx="18"/>
+            <line x1="90" y1="86" x2="47" y2="212" stroke-width="20" stroke-linecap="round"/>
+            <line x1="150" y1="86" x2="193" y2="212" stroke-width="20" stroke-linecap="round"/>
+            <circle cx="44" cy="224" r="11"/>
+            <circle cx="196" cy="224" r="11"/>
+            <line x1="103" y1="210" x2="97" y2="352" stroke-width="24" stroke-linecap="round"/>
+            <line x1="137" y1="210" x2="143" y2="352" stroke-width="24" stroke-linecap="round"/>
+            <ellipse cx="89" cy="366" rx="17" ry="8"/>
+            <ellipse cx="151" cy="366" rx="17" ry="8"/>
+          </g>
+          <path class="herz" id="herz" d="M136,128 C119,116 123,103 131,105 C134,106 136,109 136,111 C136,109 138,106 141,105 C149,103 153,116 136,128Z"/>
+          <text x="44" y="394" text-anchor="middle" font-family="Consolas,monospace" font-size="10" fill="#8A8F95">rechts</text>
+          <text x="196" y="394" text-anchor="middle" font-family="Consolas,monospace" font-size="10" fill="#8A8F95">links</text>
+          <g class="zoom" id="zoom-A">
+            <line x1="40" y1="236" x2="38" y2="268" stroke="#8A8F95" stroke-width="1" stroke-dasharray="3 3"/>
+            <circle cx="38" cy="302" r="33" fill="#fff" stroke="#8A8F95" stroke-width="1.5"/>
+            <rect x="27" y="296" width="24" height="26" rx="5" fill="#CDD0C9"/>
+            <line x1="29" y1="304" x2="15" y2="292" stroke="#CDD0C9" stroke-width="7" stroke-linecap="round"/>
+            <line x1="31" y1="297" x2="31" y2="278" stroke="#CDD0C9" stroke-width="6" stroke-linecap="round"/>
+            <line x1="38" y1="297" x2="38" y2="276" stroke="#CDD0C9" stroke-width="6" stroke-linecap="round"/>
+            <line x1="44" y1="297" x2="44" y2="278" stroke="#CDD0C9" stroke-width="6" stroke-linecap="round"/>
+            <line x1="49" y1="299" x2="50" y2="283" stroke="#CDD0C9" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <path class="strom" id="weg-A" d="M15,292 L28,304 L31,298 L31,278"/>
+          <path class="strom" id="weg-B" d="M44,224 L86,92 L136,117 L154,92 L196,224"/>
+          <path class="strom" id="weg-C" d="M44,224 L86,92 L93,150 L100,212 L97,352 L89,366"/>
+          <g id="pkt-A"><circle class="punkt" cx="15" cy="292" r="4"/><circle class="punkt" cx="31" cy="278" r="4"/></g>
+          <g id="pkt-B"><circle class="punkt" cx="44" cy="224" r="5"/><circle class="punkt" cx="196" cy="224" r="5"/></g>
+          <g id="pkt-C"><circle class="punkt" cx="44" cy="224" r="5"/><circle class="punkt" cx="89" cy="366" r="5"/></g>
+        </svg>
+        <p id="weg-text">Wähle eine Situation</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <p>Ordne die Situationen nach ihrer Gefährlichkeit, beginnend mit der gefährlichsten. Begründe deine Reihenfolge.</p>
+    <div class="scroll"><table class="own">
+      <tr><td class="lab">am gefährlichsten</td><td><select id="a4-p1" aria-label="am gefährlichsten"><option value=""></option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td><td class="unit"></td></tr>
+      <tr><td class="lab">danach</td><td><select id="a4-p2" aria-label="danach"><option value=""></option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td><td class="unit"></td></tr>
+      <tr><td class="lab">am wenigsten gefährlich</td><td><select id="a4-p3" aria-label="am wenigsten gefährlich"><option value=""></option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td><td class="unit"></td></tr>
+    </table></div>
+    <div class="answer"><button class="check" data-check="w">Prüfen</button></div>
+    <div class="msg" id="msg-w"></div><div class="freitext" id="a4-begr" contenteditable="true" data-platzhalter="Deine Begründung"></div>
+  </div>
+</section>
+
+<!-- ================= AUFGABE 5 ================= -->
+<section class="task" id="t5">
+  <div class="task-head">
+    <span class="num">Aufgabe 5</span>
+    <h2>Warum gerade 50 V und 120 V?</h2>
+  </div>
+  <div class="step">
+    <p class="case">Im Buch steht, dass IT-Fachleute nicht an Leitungen mit mehr als 50 V Wechselspannung und 120 V Gleichspannung arbeiten dürfen. Warum gerade diese Werte gelten, steht dort nicht.</p>
+    <p>Erkläre mit deinen Ergebnissen aus Aufgabe 2, warum die Grenze für Wechselspannung bei 50 V liegt.</p>
+    <div class="freitext" id="a5-ac" contenteditable="true" data-platzhalter="Deine Erklärung"></div>
+  </div>
+
+  <div class="step">
+    <p>Recherchiere, warum für Gleichspannung eine mehr als doppelt so hohe Grenze gilt. Gib deine Quelle mit vollständigem Link an.</p>
+    <div class="freitext" id="a5-dc" contenteditable="true" data-platzhalter="Dein Rechercheergebnis"></div>
+    <div class="scroll" style="margin-top:8px"><table class="own"><tr><td class="lab" style="width:6rem">Quelle</td><td><input type="text" id="a5-quelle" autocomplete="off" style="width:100%" aria-label="Quelle"></td></tr></table></div>
+  </div>
+</section>
+
+<!-- ================= AUFGABE 6 ================= -->
+<section class="task" id="t6">
+  <div class="task-head">
+    <span class="num">Aufgabe 6</span>
+    <h2>Typenschilder lesen</h2>
+  </div>
+  <div class="step">
+    <p>Bestimme für jede Tätigkeit, welche Spannung an der Stelle anliegt, an der du arbeitest, und entscheide, ob du dort als IT-Fachkraft arbeiten darfst.</p>
+  </div>
+  <div class="step step-lang">
+    <div class="geraete">
+
+      <div class="geraet" id="d1">
+        <h4>Gerät 1: Raspberry Pi</h4>
+        <p class="taetig">Am eingeschalteten Raspberry Pi einen Temperatursensor an die Steckleiste anschließen.</p>
+        <div class="schild"><div class="marke">USB-C-Netzteil</div>
+          <div class="zeile">Model: PSU-27W-C</div>
+          <div class="zeile">INPUT: 100–240 V~ 50/60 Hz 0,5 A</div>
+          <div class="zeile">OUTPUT: 5,1 V<span class="dc"></span> 3,0 A</div>
+        </div>
+        <div class="g-felder">
+          <span>Spannung</span><span class="u"><input type="text" id="d1-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 1"> V</span>
+          <span>Art</span><select id="d1-art" aria-label="Spannungsart Gerät 1"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
+          <span>Arbeiten</span><select id="d1-d" aria-label="Entscheidung Gerät 1"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
+        </div>
+      </div>
+
+      <div class="geraet" id="d2">
+        <h4>Gerät 2: USV</h4>
+        <p class="taetig">Der Netzstecker der unterbrechungsfreien Stromversorgung ist gezogen. Du sollst die fest angeschlossene Ausgangsleitung im Anschlusskasten der USV neu anklemmen.</p>
+        <div class="schild"><div class="marke">USV 3000</div>
+          <div class="zeile">INPUT: 230 V~ 50 Hz 13 A</div>
+          <div class="zeile">BATTERY: 72 V<span class="dc"></span></div>
+          <div class="zeile">OUTPUT: 230 V~ 50 Hz</div>
+        </div>
+        <div class="g-felder">
+          <span>Spannung</span><span class="u"><input type="text" id="d2-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 2"> V</span>
+          <span>Art</span><select id="d2-art" aria-label="Spannungsart Gerät 2"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
+          <span>Arbeiten</span><select id="d2-d" aria-label="Entscheidung Gerät 2"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
+        </div>
+      </div>
+
+      <div class="geraet" id="d3">
+        <h4>Gerät 3: Schwenkkamera</h4>
+        <p class="taetig">Die Versorgungsleitung der Kamera, die von ihrem Kameranetzteil kommt, an der Klemme der Kamera neu anschließen.</p>
+        <div class="schild"><div class="marke">PTZ-Kamera</div>
+          <div class="zeile">Schutzart: IP66</div>
+          <div class="zeile">POWER: 24 V~ 50 Hz 2 A</div>
+          <div class="zeile">Betrieb: −30 bis 50 °C</div>
+        </div>
+        <div class="g-felder">
+          <span>Spannung</span><span class="u"><input type="text" id="d3-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 3"> V</span>
+          <span>Art</span><select id="d3-art" aria-label="Spannungsart Gerät 3"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
+          <span>Arbeiten</span><select id="d3-d" aria-label="Entscheidung Gerät 3"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
+        </div>
+      </div>
+
+      <div class="geraet" id="d4">
+        <h4>Gerät 4: IP-Kamera</h4>
+        <p class="taetig">Das Netzwerkkabel, über das die Kamera auch ihren Strom bekommt, an der Kamera neu auflegen.</p>
+        <div class="schild"><div class="marke">IP-Kamera DC-4100</div>
+          <div class="zeile">POWER: PoE IEEE 802.3af, 48 V<span class="dc"></span></div>
+          <div class="zeile">max. 6,5 W</div>
+          <div class="zeile">LAN: 100 Mbit/s</div>
+        </div>
+        <div class="g-felder">
+          <span>Spannung</span><span class="u"><input type="text" id="d4-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 4"> V</span>
+          <span>Art</span><select id="d4-art" aria-label="Spannungsart Gerät 4"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
+          <span>Arbeiten</span><select id="d4-d" aria-label="Entscheidung Gerät 4"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
+        </div>
+      </div>
+
+      <div class="geraet" id="d5">
+        <h4>Gerät 5: Monitor</h4>
+        <p class="taetig">Den Monitor aufschrauben und die Platine tauschen, an der das Netzkabel angeschlossen ist. Der Monitor hat kein externes Netzteil.</p>
+        <div class="schild"><div class="marke">LED-Monitor 27"</div>
+          <div class="zeile">HDMI 2.0, DisplayPort 1.4</div>
+          <div class="zeile">Leistung: max. 38 W</div>
+          <div class="zeile">INPUT: 100–240 V~ 50/60 Hz 1,2 A</div>
+        </div>
+        <div class="g-felder">
+          <span>Spannung</span><span class="u"><input type="text" id="d5-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 5"> V</span>
+          <span>Art</span><select id="d5-art" aria-label="Spannungsart Gerät 5"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
+          <span>Arbeiten</span><select id="d5-d" aria-label="Entscheidung Gerät 5"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
+        </div>
+      </div>
+
+      <div class="geraet" id="d6">
+        <h4>Gerät 6: Batterieschrank</h4>
+        <p class="taetig">Die Verbindungsleitung zwischen dem Batterieschrank und der großen USV im Serverraum abklemmen.</p>
+        <div class="schild"><div class="marke">Batterieschrank BX-16</div>
+          <div class="zeile">Kapazität: 9 Ah</div>
+          <div class="zeile">16 Blöcke × 12 V<span class="dc"></span> in Reihe</div>
+          <div class="zeile">Gewicht: 68 kg</div>
+        </div>
+        <div class="g-felder">
+          <span>Spannung</span><span class="u"><input type="text" id="d6-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 6"> V</span>
+          <span>Art</span><select id="d6-art" aria-label="Spannungsart Gerät 6"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
+          <span>Arbeiten</span><select id="d6-d" aria-label="Entscheidung Gerät 6"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
+        </div>
+      </div>
+
+      <div class="geraet" id="d7">
+        <h4>Gerät 7: Notebook</h4>
+        <p class="taetig">Den beschädigten Hohlstecker am Kabel zwischen Netzteil und Notebook durch einen neuen ersetzen.</p>
+        <div class="schild"><div class="marke">Notebook-Netzteil NB-90</div>
+          <div class="zeile">INPUT: 100–240 V~ 50/60 Hz 1,5 A</div>
+          <div class="zeile">OUTPUT: 19,5 V<span class="dc"></span> 4,62 A</div>
+          <div class="zeile">Made in China</div>
+        </div>
+        <div class="g-felder">
+          <span>Spannung</span><span class="u"><input type="text" id="d7-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 7"> V</span>
+          <span>Art</span><select id="d7-art" aria-label="Spannungsart Gerät 7"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
+          <span>Arbeiten</span><select id="d7-d" aria-label="Entscheidung Gerät 7"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
+        </div>
+      </div>
+
+      <div class="geraet" id="d8">
+        <h4>Gerät 8: Batteriemodul</h4>
+        <p class="taetig">Die Verbindungsleitung zwischen dem Batteriemodul und der kleinen USV im Netzwerkschrank abklemmen.</p>
+        <div class="schild"><div class="marke">Batteriemodul BP-96</div>
+          <div class="zeile">Nennspannung: 96 V<span class="dc"></span></div>
+          <div class="zeile">Kapazität: 7 Ah</div>
+          <div class="zeile">Gewicht: 24 kg</div>
+        </div>
+        <div class="g-felder">
+          <span>Spannung</span><span class="u"><input type="text" id="d8-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 8"> V</span>
+          <span>Art</span><select id="d8-art" aria-label="Spannungsart Gerät 8"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
+          <span>Arbeiten</span><select id="d8-d" aria-label="Entscheidung Gerät 8"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
+        </div>
+      </div>
+
+    </div>
+    <div class="answer"><button class="check" data-check="d">Prüfen</button></div>
+    <div class="msg" id="msg-d"></div>
+  </div>
+</section>
+
+<!-- ================= AUFGABE 7 ================= -->
+<section class="task" id="t8">
+  <div class="task-head">
+    <span class="num">Aufgabe 7</span>
+    <h2>Darf ich das?</h2>
+  </div>
+  <div class="step">
+    <p>Entscheide, ob eine Fachinformatikerin ohne Zusatzqualifikation die Tätigkeit ausführen darf. Begründe jeweils.</p>
+    <div class="scroll"><table class="grid"><tr><th>Tätigkeit</th><th>erlaubt</th><th>nicht erlaubt</th><th>Begründung</th></tr>
+      <tr id="a8-row1"><td class="tat">Das Kaltgerätekabel eines Monitors gegen ein neues tauschen</td><td class="rad"><input type="radio" name="a8-r1" id="a8-r1e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r1" id="a8-r1n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b1" contenteditable="true"></div></td></tr>
+      <tr id="a8-row2"><td class="tat">Am abgerissenen Verlängerungskabel einen neuen Schutzkontaktstecker anschrauben</td><td class="rad"><input type="radio" name="a8-r2" id="a8-r2e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r2" id="a8-r2n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b2" contenteditable="true"></div></td></tr>
+      <tr id="a8-row3"><td class="tat">Im Serverraum eine Wandsteckdose gegen eine mit USB-Ladebuchsen tauschen</td><td class="rad"><input type="radio" name="a8-r3" id="a8-r3e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r3" id="a8-r3n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b3" contenteditable="true"></div></td></tr>
+      <tr id="a8-row4"><td class="tat">Den Arbeitsspeicher eines vom Netz getrennten PCs tauschen</td><td class="rad"><input type="radio" name="a8-r4" id="a8-r4e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r4" id="a8-r4n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b4" contenteditable="true"></div></td></tr>
+      <tr id="a8-row5"><td class="tat">Eine Netzwerkdose in der Wand anschließen</td><td class="rad"><input type="radio" name="a8-r5" id="a8-r5e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r5" id="a8-r5n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b5" contenteditable="true"></div></td></tr>
+      <tr id="a8-row6"><td class="tat">Die Deckenleuchte im Büro gegen eine LED-Leuchte tauschen</td><td class="rad"><input type="radio" name="a8-r6" id="a8-r6e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r6" id="a8-r6n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b6" contenteditable="true"></div></td></tr>
+      <tr id="a8-row7"><td class="tat">Den Akku eines Notebooks gegen einen neuen tauschen</td><td class="rad"><input type="radio" name="a8-r7" id="a8-r7e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r7" id="a8-r7n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b7" contenteditable="true"></div></td></tr>
+      <tr id="a8-row8"><td class="tat">Im Serverschrank eine Steckdosenleiste fest an die Hausinstallation anklemmen</td><td class="rad"><input type="radio" name="a8-r8" id="a8-r8e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r8" id="a8-r8n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b8" contenteditable="true"></div></td></tr>
+    </table></div>
+    <div class="answer"><button class="check" data-check="a8">Prüfen</button></div>
+    <div class="msg" id="msg-a8"></div>
+  </div>
+
+  <div class="step">
+    <h3>Bonus</h3>
+    <p>Dein Betrieb möchte, dass du künftig Steckdosen in Serverschränken selbst anschließen darfst. Beschreibe, wie das möglich wäre.</p><div class="freitext" id="a8-bonus" contenteditable="true" data-platzhalter="Deine Antwort"></div>
+  </div>
+</section>
+
+<!-- ================= BONUS ================= -->
+<section class="task" id="t9">
+
+  <div class="task-head">
+    <span class="num">Bonusaufgaben</span>
+    <h2>Für Profis</h2>
+  </div>
+
+  <div class="step">
+    <h3>Bonus 1: Herzstromfaktor</h3>
+    <p class="case">Fachleute vergleichen Stromwege mit dem Herzstromfaktor <i>F</i>. Ein Strom <i>I</i> auf einem Weg mit dem Herzstromfaktor <i>F</i> wirkt auf das Herz wie der Strom <i>I</i> &middot; <i>F</i> auf dem Weg von der linken Hand zu beiden Füßen.</p>
+    <p>Recherchiere die Herzstromfaktoren für die Situationen B und C aus Aufgabe 4. Berechne dann für eine Spannung von 230 V und einen Körperwiderstand von 1 k&Omega;, welchem Strom auf dem Weg linke Hand zu den Füßen die beiden Situationen entsprechen.</p>
+    <div class="scroll"><table class="own">
+      <tr><td class="lab">Herzstromfaktor Situation B</td><td><input type="text" id="h-fb" inputmode="decimal" autocomplete="off" aria-label="Herzstromfaktor B"></td><td class="unit"></td></tr>
+      <tr><td class="lab">Herzstromfaktor Situation C</td><td><input type="text" id="h-fc" inputmode="decimal" autocomplete="off" aria-label="Herzstromfaktor C"></td><td class="unit"></td></tr>
+      <tr><td class="lab">Situation B entspricht</td><td><input type="text" id="h-ib" inputmode="decimal" autocomplete="off" aria-label="Vergleichsstrom B"></td><td class="unit">mA</td></tr>
+      <tr><td class="lab">Situation C entspricht</td><td><input type="text" id="h-ic" inputmode="decimal" autocomplete="off" aria-label="Vergleichsstrom C"></td><td class="unit">mA</td></tr>
+    </table></div>
+    <div class="answer"><button class="check" data-check="h">Prüfen</button></div>
+    <div class="msg" id="msg-h"></div>
+    <p style="margin-top:12px">Vergleiche das Ergebnis mit deiner Reihenfolge aus Aufgabe 4. Erkläre, wie der Unterschied zustande kommt.</p>
+    <div class="freitext" id="h-text" contenteditable="true" data-platzhalter="Deine Erklärung"></div>
+  </div>
+
+  <div class="step">
+    <h3>Bonus 2: Ist 1 k&Omega; realistisch?</h3>
+    <p class="case">Im Buch steht, dass der Hautwiderstand mit steigender Spannung kleiner wird. Bei Messungen an Personen mit besonders niedrigem Körperwiderstand ergaben sich für den Weg von Hand zu Hand diese Werte:</p>
+    <div class="scroll"><table class="grid">
+      <tr><th>Spannung</th><th>Körperwiderstand</th><th>Stromstärke in mA</th></tr>
+      <tr><td class="mono">25 V</td><td class="mono">1750 &Omega;</td><td><input type="text" id="k-25" inputmode="decimal" autocomplete="off" aria-label="Stromstärke bei 25 V"></td></tr>
+      <tr><td class="mono">50 V</td><td class="mono">1375 &Omega;</td><td><input type="text" id="k-50" inputmode="decimal" autocomplete="off" aria-label="Stromstärke bei 50 V"></td></tr>
+      <tr><td class="mono">230 V</td><td class="mono">775 &Omega;</td><td><input type="text" id="k-230" inputmode="decimal" autocomplete="off" aria-label="Stromstärke bei 230 V"></td></tr>
+      <tr><td class="mono">400 V</td><td class="mono">700 &Omega;</td><td><input type="text" id="k-400" inputmode="decimal" autocomplete="off" aria-label="Stromstärke bei 400 V"></td></tr>
+    </table></div>
+  </div>
+  <div class="step">
+    <p>Bei welchen Spannungen fließt mehr Strom, als die Rechnung mit 1 k&Omega; ergibt?</p>
+    <div class="choices">
+      <label id="lk-c25"><input type="checkbox" id="k-c25"> 25 V</label>
+      <label id="lk-c50"><input type="checkbox" id="k-c50"> 50 V</label>
+      <label id="lk-c230"><input type="checkbox" id="k-c230"> 230 V</label>
+      <label id="lk-c400"><input type="checkbox" id="k-c400"> 400 V</label>
+    </div>
+    <div class="answer"><button class="check" data-check="k">Prüfen</button></div>
+    <div class="msg" id="msg-k"></div>
+    <p style="margin-top:12px">Beurteile, ob die Rechnung mit 1 k&Omega; für die Grenze von 50 V und für die Steckdose auf der sicheren Seite liegt.</p>
+    <div class="freitext" id="k-text" contenteditable="true" data-platzhalter="Deine Beurteilung"></div>
+  </div>
+
+  <div class="step">
+    <h3>Bonus 3: Stecker gezogen, Gefahr gebannt?</h3>
+    <p class="case">Im Inneren eines PC-Netzteils sitzt ein großer Kondensator. Er lädt sich im Betrieb auf etwa 325 V Gleichspannung auf und kann diese Spannung nach dem Ziehen des Netzsteckers noch einige Zeit halten.</p>
+    <div class="scroll"><table class="own">
+      <tr><td class="lab">Stromstärke bei Berührung mit beiden Händen (1 k&Omega;)</td><td><input type="text" id="n-i" inputmode="decimal" autocomplete="off" aria-label="Stromstärke Kondensator"></td><td class="unit">mA</td></tr>
+      <tr><td class="lab">Bereich laut Tabelle im Buch</td><td><input type="text" id="n-b" inputmode="numeric" autocomplete="off" aria-label="Bereich Kondensator"></td><td class="unit"></td></tr>
+      <tr><td class="lab">Arbeiten am geöffneten Netzteil nach dem Ziehen des Steckers</td><td><select id="n-d" aria-label="Entscheidung Kondensator"><option value=""></option><option value="e">erlaubt</option><option value="n">nicht erlaubt</option></select></td><td class="unit"></td></tr>
+    </table></div>
+    <div class="answer"><button class="check" data-check="n">Prüfen</button></div>
+    <div class="msg" id="msg-n"></div>
+    <p style="margin-top:12px">Recherchiere, warum sich der Kondensator auf eine höhere Spannung auflädt als die 230 V aus der Steckdose.</p>
+    <div class="freitext" id="n-text" contenteditable="true" data-platzhalter="Dein Rechercheergebnis"></div>
+  </div>
+</section>
+
+</div>
+<script>
+(function(){
+  function $(id){ return document.getElementById(id); }
+  function say(k, text, kind){ var el = $("msg-" + k); el.textContent = text; el.className = "msg" + (kind ? " " + kind : ""); }
+  function mark(el, ok){ el.classList.remove("ok", "bad"); el.classList.add(ok ? "ok" : "bad"); }
+  function parse(s){
+    s = (s || "").replace(/\s+/g, "").replace(/[^0-9,.\-]/g, "");
+    if (s === "") return null;
+    if (s.indexOf(",") >= 0) s = s.replace(/\./g, "").replace(",", ".");
+    var n = Number(s);
+    return isNaN(n) ? NaN : n;
+  }
+  function near(v, exp, tol){ return Math.abs(v - exp) <= tol; }
+
+  /* Auswahllisten fuellen */
+  var WIRK = ["Blutdruckanstieg", "Herzkammerflimmern", "Kribbeln", "starke Krämpfe", "Verkochen von Gewebe", "Muskelkrampf"];
+  ["s1-w","s2-w","s3-w","s4-w","s5-w","s6-w"].forEach(function(id){
+    var sel = $(id), o = document.createElement("option"); o.value = ""; sel.appendChild(o);
+    WIRK.forEach(function(w){ var op = document.createElement("option"); op.value = w; op.textContent = w; sel.appendChild(op); });
+  });
+
+  /* Felder: {id, soll (Zahl) oder sel (Array erlaubter Werte), tol, name, hints [[Wert, Toleranz, Text]]} */
+  var CHECKS = {
+    o: [{id:"o-1", sel:["doppelt"], name:"Die erste Auswahl"},
+        {id:"o-2", sel:["halb"], name:"Die zweite Auswahl"},
+        {id:"o-3", soll:1, tol:0.001, name:"Die Stromstärke bei 1 kΩ", hints:[[0.001, 0.0001, "Gefragt ist die Stromstärke in Milliampere."]]},
+        {id:"o-5", soll:1, tol:0.001, name:"Die Stromstärke bei 1 Ω", hints:[[1000, 0.5, "Gefragt ist die Stromstärke in Ampere, nicht in Milliampere."], [0.001, 0.0001, "Der Widerstand ist 1000-mal kleiner als 1 kΩ. Was bedeutet das für den Strom?"]]},
+        {id:"o-4", soll:3000, tol:1, name:"Der Widerstand für 4 mA", hints:[[3, 0.01, "Achte auf die Einheit: 4 mA sind 0,004 A."], [48, 0.1, "Du hast Spannung und Stromstärke multipliziert."], [0.333, 0.01, "Du hast Stromstärke durch Spannung geteilt."]]}],
+    s: [{id:"s1-i", soll:230, tol:1, name:"Die Stromstärke an der Steckdose", hints:[[0.23, 0.001, "Gib die Stromstärke in Milliampere an."]]},
+        {id:"s1-b", soll:3, tol:0, name:"Der Bereich an der Steckdose"},
+        {id:"s1-w", sel:["Herzkammerflimmern"], name:"Die Wirkung an der Steckdose"},
+        {id:"s2-i", soll:9, tol:0.05, name:"Die Stromstärke am 9-V-Block", hints:[[0.009, 0.0001, "Gib die Stromstärke in Milliampere an."]]},
+        {id:"s2-b", soll:1, tol:0, name:"Der Bereich am 9-V-Block"},
+        {id:"s2-w", sel:["Muskelkrampf"], name:"Die Wirkung am 9-V-Block"},
+        {id:"s3-i", soll:15000, tol:1, name:"Die Stromstärke an der Oberleitung", hints:[[15, 0.01, "Gib die Stromstärke in Milliampere an."]]},
+        {id:"s3-b", soll:4, tol:0, name:"Der Bereich an der Oberleitung"},
+        {id:"s3-w", sel:["Verkochen von Gewebe"], name:"Die Wirkung an der Oberleitung"},
+        {id:"s4-i", soll:48, tol:0.1, name:"Die Stromstärke am PoE-Kabel", hints:[[0.048, 0.0005, "Gib die Stromstärke in Milliampere an."]]},
+        {id:"s4-b", soll:2, tol:0, name:"Der Bereich am PoE-Kabel"},
+        {id:"s4-w", sel:["starke Krämpfe", "Herzkammerflimmern"], name:"Die Wirkung am PoE-Kabel"},
+        {id:"s5-i", soll:1.5, tol:0.01, name:"Die Stromstärke an der Mignonbatterie", hints:[[0.0015, 0.0001, "Gib die Stromstärke in Milliampere an."]]},
+        {id:"s5-b", soll:1, tol:0, name:"Der Bereich an der Mignonbatterie"},
+        {id:"s5-w", sel:["Kribbeln"], name:"Die Wirkung an der Mignonbatterie"},
+        {id:"s6-i", soll:12, tol:0.05, name:"Die Stromstärke an der PC-Leitung", hints:[[0.012, 0.0001, "Gib die Stromstärke in Milliampere an."]]},
+        {id:"s6-b", soll:1, tol:0, name:"Der Bereich an der PC-Leitung"},
+        {id:"s6-w", sel:["Blutdruckanstieg"], name:"Die Wirkung an der PC-Leitung", hints:[]}],
+    g: [{id:"g-los", soll:10, tol:0.05, name:"Die Spannung an der Loslassgrenze", hints:[[0.01, 0.0001, "Rechne mit 10 mA = 0,01 A und gib das Ergebnis in Volt an."], [10000, 1, "1 kΩ sind 1000 Ω, 10 mA sind 0,01 A."]]},
+        {id:"g-b3", soll:50, tol:0.1, name:"Die Spannung am Beginn von Bereich 3", hints:[[25, 0.1, "Bei 25 mA beginnt Bereich 2, nicht Bereich 3."], [3000, 1, "Bei 3000 mA beginnt Bereich 4, nicht Bereich 3."]]}],
+    lt: [{id:"a3-wer", sel:["Lena"], name:"Die Entscheidung"}],
+    w: [{id:"a4-p1", sel:["B"], name:"Die gefährlichste Situation"}, {id:"a4-p2", sel:["C"], name:"Die mittlere Situation"}, {id:"a4-p3", sel:["A"], name:"Die am wenigsten gefährliche Situation"}],
+    h: [{id:"h-fb", soll:0.4, tol:0.001, name:"Der Herzstromfaktor für B"},
+        {id:"h-fc", soll:0.8, tol:0.001, name:"Der Herzstromfaktor für C"},
+        {id:"h-ib", soll:92, tol:0.5, name:"Der Vergleichsstrom für B", hints:[[575, 1, "Du hast durch den Faktor geteilt. Der Strom wird mit dem Faktor multipliziert."]]},
+        {id:"h-ic", soll:184, tol:0.5, name:"Der Vergleichsstrom für C", hints:[[287.5, 1, "Du hast durch den Faktor geteilt. Der Strom wird mit dem Faktor multipliziert."]]}],
+    k: [{id:"k-25", soll:14.3, tol:0.1, name:"Die Stromstärke bei 25 V", hints:[[25, 0.1, "Rechne mit dem Körperwiderstand aus der Tabelle, nicht mit 1 kΩ."]]},
+        {id:"k-50", soll:36.4, tol:0.1, name:"Die Stromstärke bei 50 V", hints:[[50, 0.1, "Rechne mit dem Körperwiderstand aus der Tabelle, nicht mit 1 kΩ."]]},
+        {id:"k-230", soll:296.8, tol:0.5, name:"Die Stromstärke bei 230 V", hints:[[230, 0.5, "Rechne mit dem Körperwiderstand aus der Tabelle, nicht mit 1 kΩ."]]},
+        {id:"k-400", soll:571.4, tol:0.5, name:"Die Stromstärke bei 400 V", hints:[[400, 0.5, "Rechne mit dem Körperwiderstand aus der Tabelle, nicht mit 1 kΩ."]]}],
+    n: [{id:"n-i", soll:325, tol:0.5, name:"Die Stromstärke", hints:[[0.325, 0.001, "Gib die Stromstärke in Milliampere an."]]},
+        {id:"n-b", soll:3, tol:0, name:"Der Bereich"},
+        {id:"n-d", sel:["n"], name:"Die Entscheidung"}]
+  };
+
+  /* Alle Felder werden geprüft, es wird nicht am ersten Fehler abgebrochen */
+  function kurz(name){ return name.replace(/^(Die|Der) /, ""); }
+  function neu(){ return {fehlt:[], falsch:[], tipps:[]}; }
+  function tipp(r, t){ if (r.tipps.indexOf(t) < 0) r.tipps.push(t); }
+  function melde(k, r){
+    var z = [];
+    if (r.falsch.length) z.push("Stimmt noch nicht: " + r.falsch.join(", ") + ".");
+    r.tipps.forEach(function(t){ z.push("Tipp: " + t); });
+    if (r.fehlt.length) z.push("Fehlt noch: " + r.fehlt.join(", ") + ".");
+    if (!z.length){ say(k, "Alles richtig.", "ok"); return true; }
+    say(k, z.join("\n"), "hint");
+    return false;
+  }
+  function pruefe(list, r){
+    list.forEach(function(f){
+      var el = $(f.id);
+      el.classList.remove("ok", "bad");
+      if (f.sel){
+        if (el.value === ""){ r.fehlt.push(kurz(f.name)); return; }
+        var okS = f.sel.indexOf(el.value) >= 0;
+        mark(el, okS);
+        if (!okS) r.falsch.push(kurz(f.name));
+        return;
+      }
+      var v = parse(el.value);
+      if (v === null){ r.fehlt.push(kurz(f.name)); return; }
+      if (isNaN(v)){ mark(el, false); r.falsch.push(kurz(f.name) + " (keine Zahl)"); return; }
+      var ok = near(v, f.soll, f.tol);
+      mark(el, ok);
+      if (!ok){
+        r.falsch.push(kurz(f.name));
+        (f.hints || []).some(function(h){ if (near(v, h[0], h[1])){ tipp(r, h[2]); return true; } return false; });
+      }
+    });
+    return r;
+  }
+  function run(k, list){ return melde(k, pruefe(list, neu())); }
+
+  /* Bonus 2: Ankreuzteil */
+  function runK(){
+    var r = pruefe(CHECKS.k, neu());
+    var soll = {c25:false, c50:false, c230:true, c400:true}, offen = true, falsch = 0;
+    Object.keys(soll).forEach(function(c){
+      var cb = $("k-" + c);
+      $("lk-" + c).classList.remove("ok", "bad");
+      if (cb.checked) offen = false;
+      if (cb.checked !== soll[c]) falsch++;
+    });
+    if (offen) r.fehlt.push("Auswahl der Spannungen");
+    else {
+      Object.keys(soll).forEach(function(c){ if ($("k-" + c).checked) $("lk-" + c).classList.add(soll[c] ? "ok" : "bad"); });
+      if (falsch) r.falsch.push("Auswahl der Spannungen");
+    }
+    melde("k", r);
+  }
+
+  /* Aufgabe 6: Typenschilder. andere: Spannungen auf der falschen Seite des Geräts */
+  var GER = [
+    {u:[5.1], tol:0.05, art:"dc", d:"e", andere:[100, 240]},
+    {u:[230], tol:0.5, art:"ac", d:"n", andere:[72]},
+    {u:[24], tol:0.05, art:"ac", d:"e", andere:[]},
+    {u:[48], tol:0.05, art:"dc", d:"e", andere:[]},
+    {u:[230, 240], tol:0.5, art:"ac", d:"n", andere:[]},
+    {u:[192], tol:0.5, art:"dc", d:"n", andere:[], reihe:true},
+    {u:[19.5], tol:0.05, art:"dc", d:"e", andere:[100, 240]},
+    {u:[96], tol:0.5, art:"dc", d:"e", andere:[]}
+  ];
+  function runD(){
+    var r = neu(), erster = "";
+    GER.forEach(function(g, i){
+      var n = i + 1, card = $("d" + n), offen = [], falsch = [];
+      card.classList.remove("ok", "bad");
+      var fu = $("d" + n + "-u"), fa = $("d" + n + "-art"), fd = $("d" + n + "-d");
+      [fu, fa, fd].forEach(function(x){ x.classList.remove("ok", "bad"); });
+      var u = parse(fu.value);
+      if (u === null) offen.push("Spannung");
+      else {
+        var uOk = !isNaN(u) && g.u.some(function(x){ return near(u, x, g.tol); });
+        mark(fu, uOk);
+        if (!uOk){
+          falsch.push("Spannung");
+          if (!erster && g.reihe) erster = "Gerät " + n + ": Die Blöcke sind in Reihe geschaltet. Was bedeutet das für die Gesamtspannung?";
+          else if (!erster && g.andere.some(function(x){ return near(u, x, 0.5); })) erster = "Gerät " + n + ": Überlege, welche Seite des Geräts du bei dieser Tätigkeit anfasst.";
+        }
+      }
+      if (fa.value === "") offen.push("Art");
+      else { mark(fa, fa.value === g.art); if (fa.value !== g.art) falsch.push("Art"); }
+      if (fd.value === "") offen.push("Arbeiten");
+      else { mark(fd, fd.value === g.d); if (fd.value !== g.d) falsch.push("Arbeiten"); }
+      if (falsch.length) card.classList.add("bad");
+      else if (!offen.length) card.classList.add("ok");
+      if (falsch.length) r.falsch.push("Gerät " + n + " (" + falsch.join(", ") + ")");
+      if (offen.length) r.fehlt.push("Gerät " + n + " (" + offen.join(", ") + ")");
+    });
+    if (erster) r.tipps.push(erster);
+    melde("d", r);
+  }
+
+  /* Aufgabe 7: Darf ich das? */
+  var A8 = ["e", "n", "n", "e", "e", "n", "e", "n"];
+  function runA8(){
+    var r = neu();
+    for (var i = 0; i < A8.length; i++){
+      var row = $("a8-row" + (i + 1));
+      row.classList.remove("ok", "bad");
+      var sel = document.querySelector('input[name="a8-r' + (i + 1) + '"]:checked');
+      if (!sel){ r.fehlt.push("Tätigkeit " + (i + 1)); continue; }
+      var ok = sel.value === A8[i];
+      row.classList.add(ok ? "ok" : "bad");
+      if (!ok) r.falsch.push("Tätigkeit " + (i + 1));
+    }
+    melde("a8", r);
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll("button.check"), function(btn){
+    btn.addEventListener("click", function(){
+      var k = btn.getAttribute("data-check");
+      if (k === "a8") runA8(); else if (k === "d") runD(); else if (k === "k") runK(); else run(k, CHECKS[k]);
+    });
+  });
+
+  /* Aufgabe 4: Stromwege */
+  var WEGTEXT = {A: "A: Daumen zum Zeigefinger der rechten Hand", B: "B: rechte Hand zur linken Hand", C: "C: rechte Hand zum rechten Fuß"};
+  var fest = "";
+  function zeige(w){
+    ["A","B","C"].forEach(function(x){
+      $("weg-" + x).classList.toggle("an", x === w);
+      Array.prototype.forEach.call($("pkt-" + x).children, function(p){ p.classList.toggle("an", x === w); });
+    });
+    $("zoom-A").classList.toggle("an", w === "A");
+    $("herz").classList.toggle("an", w === "B");
+    $("weg-text").textContent = w ? WEGTEXT[w] : "Wähle eine Situation";
+    Array.prototype.forEach.call(document.querySelectorAll("#wege li"), function(li){ li.classList.toggle("aktiv", li.getAttribute("data-weg") === fest); });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#wege li"), function(li){
+    var w = li.getAttribute("data-weg");
+    li.addEventListener("mouseenter", function(){ zeige(w); });
+    li.addEventListener("mouseleave", function(){ zeige(fest); });
+    li.addEventListener("focus", function(){ zeige(w); });
+    li.addEventListener("blur", function(){ zeige(fest); });
+    li.addEventListener("click", function(){ fest = (fest === w) ? "" : w; zeige(fest || w); });
+    li.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); fest = (fest === w) ? "" : w; zeige(fest || w); } });
+  });
+
+  /* Aufgabe 1: Simulator. Spannung und Widerstand sind einstellbar, die Stromstärke ergibt sich */
+  var G = {
+    U: {min:0.1, max:20000, val:10, log:true, feld:"sim-u", regler:"sim-u-r", txt:"k-u", f:"f-u", einh:"V"},
+    R: {min:1, max:1000000, val:1000, log:true, feld:"sim-r", regler:"sim-r-r", txt:"k-r", f:"f-r", einh:"Ω"},
+    I: {min:0.0001, max:20000000, val:10, log:true, feld:"sim-i", regler:"sim-i-r", txt:"k-i", f:"f-i", einh:"mA"}
+  };
+  function rund(v){
+    if (!isFinite(v) || v <= 0) return v;
+    var p = Math.pow(10, Math.floor(Math.log10(v)) - 2);
+    return Math.round(v / p) * p;
+  }
+  function fmt(v, k){
+    if (!isFinite(v)) return "";
+    var n = Number(rund(v).toPrecision(3));
+    return n.toLocaleString("de-DE", {useGrouping:false, maximumFractionDigits:4});
+  }
+  function zuPos(g, v){ return g.log ? Math.max(0, Math.min(1000, Math.round(1000 * Math.log(v / g.min) / Math.log(g.max / g.min)))) : Math.round(v); }
+  function vonPos(g, p){ return g.log ? rund(g.min * Math.pow(g.max / g.min, p / 1000)) : p; }
+  function anteil(g){ var a = g.log ? Math.log(g.val / g.min) / Math.log(g.max / g.min) : (g.val - g.min) / (g.max - g.min); return Math.max(0, Math.min(1, a)); }
+  function begrenze(g, v){ return Math.max(g.min, Math.min(g.max, v)); }
+  function berechne(k){
+    if (k === "I") return G.U.val / G.R.val * 1000;
+    if (k === "U") return G.R.val * G.I.val / 1000;
+    return G.U.val / (G.I.val / 1000);
+  }
+  function zeichne(quelle){
+    ["U","R","I"].forEach(function(k){
+      var g = G[k], row = document.querySelector('.sim-zeile[data-g="' + k + '"]');
+      row.classList.toggle("berechnet", k === "I");
+      if (k !== quelle) $(g.feld).value = fmt(g.val, k);
+      $(g.regler).value = zuPos(g, g.val);
+      $(g.txt).textContent = k + " = " + fmt(g.val, k) + " " + g.einh;
+      $(g.f).style.fontSize = (1.4 + 4.2 * anteil(g)).toFixed(2) + "rem";
+    });
+    if (window.kreisUpdate) kreisUpdate();
+  }
+  /* Spannung und Widerstand sind einstellbar, die Stromstärke ergibt sich daraus */
+  function setze(k, v, quelle){
+    if (!(v > 0)) return;
+    var g = G[k];
+    g.val = begrenze(g, v);
+    if (g.val !== v) quelle = "";
+    var i = berechne("I");
+    if (i < G.I.min || i > G.I.max){
+      /* Stromstärke läge außerhalb des darstellbaren Bereichs: Regler bleibt an der Grenze stehen */
+      G.I.val = begrenze(G.I, i);
+      g.val = berechne(k);
+      quelle = "";
+    } else G.I.val = i;
+    zeichne(quelle);
+  }
+  ["U","R"].forEach(function(k){
+    var g = G[k];
+    $(g.regler).addEventListener("input", function(){ setze(k, vonPos(g, Number(this.value)), ""); });
+    $(g.feld).addEventListener("input", function(){ var v = parse(this.value); if (v > 0) setze(k, v, k); });
+    $(g.feld).addEventListener("change", function(){ this.value = fmt(g.val, k); });
+  });
+
+  /* Stromkreis: Pfeile laufen gleichmaessig, im Widerstand werden sie zu Pünktchen */
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attr, parent){ var e = document.createElementNS(NS, tag); for (var k in attr) e.setAttribute(k, attr[k]); document.getElementById(parent).appendChild(e); return e; }
+  /* Weg: Pluspol hoch, oben nach rechts durch den Widerstand, rechts runter, unten nach links, links hoch zum Minuspol */
+  var WEG = 860, R_AN = 135, R_AUS = 275, QUELLE = 800, TEMPO = 45, ANZ_P = 10, MAX_D = 20;
+  function punkt(s){
+    s = ((s % WEG) + WEG) % WEG;
+    if (s < 35) return [30, 70 - s, 0, -1];
+    s -= 35; if (s < 300) return [30 + s, 35, 1, 0];
+    s -= 300; if (s < 130) return [330, 35 + s, 0, 1];
+    s -= 130; if (s < 300) return [330 - s, 165, -1, 0];
+    s -= 300; return [30, 165 - s, 0, -1];
+  }
+  var hind = [];
+  for (var c = 0; c < 6; c++){
+    var hx = 145 + c * 22;
+    (c % 2 ? [35] : [22, 48]).forEach(function(hy){ hind.push({x:hx, y:hy, el:el("circle", {cx:hx, cy:hy, r:3, fill:"#7A3FA8", "fill-opacity":".75"}, "k-hind")}); });
+  }
+  var pfeile = [];
+  for (var p = 0; p < ANZ_P; p++){
+    var pf = {s: p * WEG / ANZ_P, el: el("path", {fill:"#D6437E"}, "k-pfeile"), dots: []};
+    for (var d = 0; d < MAX_D; d++) pf.dots.push({el: el("circle", {r:2.2, fill:"#D6437E"}, "k-dots"), y:35, dx:0});
+    pfeile.push(pf);
+  }
+  var hr = 3, anzD = 6, pg = 8, ph = 5;
+  function verteile(pf){
+    /* Pünktchen in Spalten zu je 7 anordnen, damit man sie zählen kann */
+    var sp = Math.ceil(anzD / 7);
+    for (var d = 0; d < MAX_D; d++){
+      var col = Math.floor(d / 7), row = d % 7;
+      pf.dots[d].y = 17 + row * 6;
+      pf.dots[d].dx = (col - (sp - 1) / 2) * 9;
+    }
+  }
+  window.kreisUpdate = function(){
+    var ar = anteil(G.R);
+    hr = 1.5 + 8 * ar * ar;
+    hind.forEach(function(h){ h.el.setAttribute("r", hr.toFixed(1)); });
+    /* Darstellung zwischen 0,1 mA und 1000 mA abgestuft */
+    var a = Math.max(0, Math.min(1, (Math.log10(G.I.val) + 1) / 4));
+    anzD = Math.max(1, Math.round(1 + (MAX_D - 1) * a));
+    pg = 5 + 7 * a; ph = 3 + 4 * a;
+    pfeile.forEach(verteile);
+    /* Spannungspfeil neben der Quelle von Plus nach Minus, Länge und Dicke wachsen mit U */
+    var au = anteil(G.U), x = 60, hl = 18 + 52 * au, sw = 1 + 2.5 * au, kw = 4 + 4 * au, kl = 6 + 6 * au;
+    var y1 = 100 - hl / 2, y2 = 100 + hl / 2, yk = y2 - kl;
+    $("k-upfeil").setAttribute("d", "M" + (x - sw) + " " + y1 + "H" + (x + sw) + "V" + yk + "H" + (x + kw) + "L" + x + " " + y2 + "L" + (x - kw) + " " + yk + "H" + (x - sw) + "Z");
+  };
+  kreisUpdate();
+  function ausweichen(x, y){
+    for (var k = 0; k < hind.length; k++){
+      var h = hind[k], dx = x - h.x, m = hr + 3;
+      if (Math.abs(dx) < m){
+        var dy = y - h.y, need = Math.sqrt(m * m - dx * dx);
+        if (Math.abs(dy) < need) y = h.y + (dy >= 0 ? need : -need);
+      }
+    }
+    return Math.max(14, Math.min(56, y));
+  }
+  var last = 0;
+  function tick(t){
+    var dt = last ? Math.min(0.05, (t - last) / 1000) : 0; last = t;
+    pfeile.forEach(function(pf){
+      pf.s = (pf.s + TEMPO * dt) % WEG;
+      var imR = pf.s >= R_AN && pf.s <= R_AUS, imQ = pf.s >= QUELLE;
+      if (imR || imQ){ pf.el.setAttribute("d", ""); }
+      else {
+        var q = punkt(pf.s), x = q[0], y = q[1], ux = q[2], uy = q[3];
+        pf.el.setAttribute("d", "M" + (x + ux * pg).toFixed(1) + "," + (y + uy * pg).toFixed(1) +
+          " L" + (x - uy * ph).toFixed(1) + "," + (y + ux * ph).toFixed(1) +
+          " L" + (x + uy * ph).toFixed(1) + "," + (y - ux * ph).toFixed(1) + "Z");
+      }
+      var bx = 30 + (pf.s - 35);
+      pf.dots.forEach(function(dd, i){
+        var x = bx + dd.dx;
+        if (imR && i < anzD && x > 132 && x < 268){
+          dd.el.setAttribute("cx", x.toFixed(1)); dd.el.setAttribute("cy", ausweichen(x, dd.y).toFixed(1)); dd.el.setAttribute("opacity", "1");
+        } else dd.el.setAttribute("opacity", "0");
+      });
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  zeichne("");
+})();
+</script>
+<!-- vt-speicher -->
+<style>
+.vt-tools{max-width:980px;margin:8px auto 40px;padding:0 22px;display:flex;gap:12px;flex-wrap:wrap}
+.vt-tools button{font:inherit;font-size:.95em;padding:8px 18px;border:1.5px solid currentColor;background:transparent;color:inherit;cursor:pointer}
+.vt-tools button:hover{background:rgba(128,128,128,.16)}
+@media print{.vt-tools{display:none}}
+</style>
+<div class="vt-tools"><button type="button" id="vt-print" onclick="window.print()">PDF speichern</button><button type="button" id="vt-wipe" class="vt-wipe-btn">Alle Eingaben löschen</button></div>
+<script>
+(function(){
+  var PREFIX = 'bsfi-gefahren-strom:';
+  var EXCLUDE = '.sim input';
+  var store = null;
+  try { store = window.localStorage; store.setItem(PREFIX + '__t', '1'); store.removeItem(PREFIX + '__t'); }
+  catch (e) { store = null; }
+  if (!store) { return; }
+
+  /* Felder bei jedem Zugriff frisch einsammeln */
+  function collect(){
+    var out = [];
+    var idx = 0;
+    Array.prototype.forEach.call(document.querySelectorAll('input, textarea, select, [contenteditable="true"]'), function(el){
+      var t = (el.type || '').toLowerCase();
+      if (el.tagName === 'INPUT' && /^(button|submit|reset|password|file|hidden|image)$/.test(t)) { return; }
+      if (EXCLUDE && el.matches(EXCLUDE)) { return; }
+      if (el.closest('.vt-tools')) { return; }
+      var key = el.id ? 'id:' + el.id : 'n' + idx;
+      idx++;
+      out.push({ el: el, key: PREFIX + key, kind: (t === 'checkbox' || t === 'radio') ? 'check' : (el.isContentEditable ? 'rich' : 'value') });
+    });
+    return out;
+  }
+  function read(f){
+    if (f.kind === 'check') { return f.el.checked ? '1' : ''; }
+    if (f.kind === 'rich') { return f.el.textContent; }
+    return f.el.value;
+  }
+  function fire(el, type){
+    el.dispatchEvent(new Event(type, { bubbles: true }));
+  }
+
+  collect().forEach(function(f){
+    var saved = null;
+    try { saved = store.getItem(f.key); } catch (e) {}
+    if (saved === null) { return; }
+    if (f.kind === 'check') { f.el.checked = (saved === '1'); fire(f.el, 'change'); }
+    else if (f.kind === 'rich') { f.el.textContent = saved; fire(f.el, 'input'); }
+    else {
+      f.el.value = saved;
+      fire(f.el, f.el.tagName === 'SELECT' ? 'change' : 'input');
+    }
+  });
+
+  var wiping = false;
+  var timer = null;
+  function save(){
+    if (wiping) { return; }
+    collect().forEach(function(f){
+      var val = read(f);
+      try {
+        if (val && String(val).trim()) { store.setItem(f.key, val); } else { store.removeItem(f.key); }
+      } catch (e) {}
+    });
+  }
+  function queue(){
+    if (timer) { clearTimeout(timer); }
+    timer = setTimeout(save, 400);
+  }
+  document.addEventListener('input', queue, true);
+  document.addEventListener('change', queue, true);
+  window.addEventListener('pagehide', save);
+  document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'hidden') { save(); } });
+
+  function dropAll(){
+    for (var i = store.length - 1; i >= 0; i--) {
+      var k = store.key(i);
+      if (k && k.indexOf(PREFIX) === 0) { try { store.removeItem(k); } catch (e) {} }
+    }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.vt-wipe-btn'), function(wipe){
+    wipe.addEventListener('click', function(){
+      if (!window.confirm('Wirklich alle Eingaben auf diesem Blatt löschen?')) { return; }
+      wiping = true;
+      if (timer) { clearTimeout(timer); }
+      dropAll();
+      collect().forEach(function(f){
+        try {
+          if (f.kind === 'check') { f.el.checked = false; }
+          else if (f.kind === 'rich') { f.el.textContent = ''; }
+          else if (f.el.tagName === 'SELECT') { f.el.selectedIndex = 0; }
+          else { f.el.value = ''; }
+        } catch (e) {}
+      });
+      window.location.reload();
+    });
+  });
+})();
+</script>
+</body>
+</html>
