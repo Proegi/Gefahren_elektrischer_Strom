@@ -187,23 +187,22 @@
   @keyframes fluss{to{stroke-dashoffset:-15;}}
   @keyframes puls{50%{transform:scale(1.18);}}
 
-  /* Typenschilder */
-  .geraete{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
-  .geraet{border:1px solid var(--line);background:#fff;padding:12px 12px 14px;}
-  .geraet.ok{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok);}
-  .geraet.bad{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad);}
-  .geraet h4{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px;}
-  .geraet .taetig{font-size:.92rem;margin:0 0 10px;}
-  .schild{background:#2B2F33;color:#E9ECE6;font-family:var(--mono);font-size:.82rem;padding:8px;border-radius:3px;margin-bottom:10px;}
+  /* Gespraech mit dem Chef */
+  .gespraech{display:flex;flex-direction:column;gap:14px;}
+  .gespraech .chef,.gespraech .du{border:1px solid var(--line);padding:10px 14px 12px;}
+  .gespraech .chef{background:var(--card-2);border-left:4px solid var(--ink);margin-right:14%;}
+  .gespraech .du{background:#fff;border-left:4px solid var(--pink);margin-left:14%;}
+  .gespraech .du.ok{border-color:var(--ok);}
+  .gespraech .du.bad{border-color:var(--bad);}
+  .gespraech p{margin:0;font-size:.95rem;}
+  .gespraech .du p{line-height:2.3;}
+  .gespraech .du select{font-size:.84rem;padding:3px 4px;max-width:100%;}
+  .sprecher{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;}
+  .schild{background:#2B2F33;color:#E9ECE6;font-family:var(--mono);font-size:.82rem;padding:8px;border-radius:3px;margin-top:10px;max-width:360px;}
   .schild .marke{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#9FA5AB;padding:0 6px 4px;border-bottom:1px solid #4A5056;margin-bottom:4px;}
   .schild .zeile{padding:3px 6px;}
   .dc{display:inline-block;width:.95em;height:.5em;border-top:2px solid currentColor;position:relative;vertical-align:.1em;margin-left:.15em;}
   .dc::after{content:"";position:absolute;left:0;right:0;top:.22em;border-top:2px dotted currentColor;}
-  .g-felder{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;font-size:.86rem;}
-  .g-felder span{color:var(--ink-2);}
-  .g-felder .u{display:flex;align-items:center;gap:6px;font-family:var(--mono);}
-  .g-felder input[type=text]{width:6rem;}
-  .g-felder select{width:100%;}
 
   @media (max-width:700px){
     .sheet{padding:22px 13px 30px;}
@@ -212,6 +211,8 @@
     .sim-zeile{grid-template-columns:6.5rem 1fr 6rem 2rem;}
     .weg-box{grid-template-columns:1fr;}
     .koerper-wrap{max-width:260px;margin:0 auto;}
+    .gespraech .chef{margin-right:0;}
+    .gespraech .du{margin-left:0;}
   }
   @media print{
     @page{margin:14mm;}
@@ -219,7 +220,7 @@
     .sheet{max-width:none;padding:0;}
     .noprint,button.check,details.tipp,.vt-tools{display:none!important;}
     section.task,header.top{box-shadow:none;margin-bottom:16px;}
-    .step,.info,blockquote.fall,.geraet,.sim,.weg-box,table.grid tr,table.own tr,.freitext,ul.sit,.choices{break-inside:avoid;page-break-inside:avoid;}
+    .step,.info,blockquote.fall,.chef,.du,.sim,.weg-box,table.grid tr,table.own tr,.freitext,ul.sit,.choices{break-inside:avoid;page-break-inside:avoid;}
     .task-head,.step h3,blockquote.fall{break-after:avoid;page-break-after:avoid;}
     .freitext{min-height:2.4em;border:1px solid #888;}
     .step.step-lang{break-inside:auto;page-break-inside:auto;}
@@ -441,137 +442,27 @@
 <section class="task" id="t6">
   <div class="task-head">
     <span class="num">Aufgabe 6</span>
-    <h2>Typenschilder lesen</h2>
+    <h2>Unterwegs mit dem Chef</h2>
   </div>
   <div class="step">
-    <p>Bestimme für jede Tätigkeit, welche Spannung an der Stelle anliegt, an der du arbeitest, und entscheide, ob du dort als IT-Fachkraft arbeiten darfst.</p>
+    <p class="case">Dein Chef nimmt dich zu einem Kunden mit, einem Getränkehandel mit Verkaufsraum, Lager und Keller. Er zeigt dir, was dort zu tun ist, und fragt, was du davon selbst übernehmen kannst.</p>
+    <p>Ergänze deine Antworten so, dass sie fachlich stimmen.</p>
   </div>
   <div class="step step-lang">
-    <div class="geraete">
-
-      <div class="geraet" id="d1">
-        <h4>Gerät 1: Raspberry Pi</h4>
-        <p class="taetig">Am eingeschalteten Raspberry Pi einen Temperatursensor an die Steckleiste anschließen.</p>
-        <div class="schild"><div class="marke">USB-C-Netzteil</div>
-          <div class="zeile">Model: PSU-27W-C</div>
-          <div class="zeile">INPUT: 100–240 V~ 50/60 Hz 0,5 A</div>
-          <div class="zeile">OUTPUT: 5,1 V<span class="dc"></span> 3,0 A</div>
-        </div>
-        <div class="g-felder">
-          <span>Spannung</span><span class="u"><input type="text" id="d1-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 1"> V</span>
-          <span>Art</span><select id="d1-art" aria-label="Spannungsart Gerät 1"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
-          <span>Arbeiten</span><select id="d1-d" aria-label="Entscheidung Gerät 1"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
-        </div>
-      </div>
-
-      <div class="geraet" id="d2">
-        <h4>Gerät 2: USV</h4>
-        <p class="taetig">Der Netzstecker der unterbrechungsfreien Stromversorgung ist gezogen. Du sollst die fest angeschlossene Ausgangsleitung im Anschlusskasten der USV neu anklemmen.</p>
-        <div class="schild"><div class="marke">USV 3000</div>
-          <div class="zeile">INPUT: 230 V~ 50 Hz 13 A</div>
-          <div class="zeile">BATTERY: 72 V<span class="dc"></span></div>
-          <div class="zeile">OUTPUT: 230 V~ 50 Hz</div>
-        </div>
-        <div class="g-felder">
-          <span>Spannung</span><span class="u"><input type="text" id="d2-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 2"> V</span>
-          <span>Art</span><select id="d2-art" aria-label="Spannungsart Gerät 2"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
-          <span>Arbeiten</span><select id="d2-d" aria-label="Entscheidung Gerät 2"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
-        </div>
-      </div>
-
-      <div class="geraet" id="d3">
-        <h4>Gerät 3: Schwenkkamera</h4>
-        <p class="taetig">Die Versorgungsleitung der Kamera, die von ihrem Kameranetzteil kommt, an der Klemme der Kamera neu anschließen.</p>
-        <div class="schild"><div class="marke">PTZ-Kamera</div>
-          <div class="zeile">Schutzart: IP66</div>
-          <div class="zeile">POWER: 24 V~ 50 Hz 2 A</div>
-          <div class="zeile">Betrieb: −30 bis 50 °C</div>
-        </div>
-        <div class="g-felder">
-          <span>Spannung</span><span class="u"><input type="text" id="d3-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 3"> V</span>
-          <span>Art</span><select id="d3-art" aria-label="Spannungsart Gerät 3"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
-          <span>Arbeiten</span><select id="d3-d" aria-label="Entscheidung Gerät 3"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
-        </div>
-      </div>
-
-      <div class="geraet" id="d4">
-        <h4>Gerät 4: IP-Kamera</h4>
-        <p class="taetig">Das Netzwerkkabel, über das die Kamera auch ihren Strom bekommt, an der Kamera neu auflegen.</p>
-        <div class="schild"><div class="marke">IP-Kamera DC-4100</div>
-          <div class="zeile">POWER: PoE IEEE 802.3af, 48 V<span class="dc"></span></div>
-          <div class="zeile">max. 6,5 W</div>
-          <div class="zeile">LAN: 100 Mbit/s</div>
-        </div>
-        <div class="g-felder">
-          <span>Spannung</span><span class="u"><input type="text" id="d4-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 4"> V</span>
-          <span>Art</span><select id="d4-art" aria-label="Spannungsart Gerät 4"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
-          <span>Arbeiten</span><select id="d4-d" aria-label="Entscheidung Gerät 4"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
-        </div>
-      </div>
-
-      <div class="geraet" id="d5">
-        <h4>Gerät 5: Monitor</h4>
-        <p class="taetig">Den Monitor aufschrauben und die Platine tauschen, an der das Netzkabel angeschlossen ist. Der Monitor hat kein externes Netzteil.</p>
-        <div class="schild"><div class="marke">LED-Monitor 27"</div>
-          <div class="zeile">HDMI 2.0, DisplayPort 1.4</div>
-          <div class="zeile">Leistung: max. 38 W</div>
-          <div class="zeile">INPUT: 100–240 V~ 50/60 Hz 1,2 A</div>
-        </div>
-        <div class="g-felder">
-          <span>Spannung</span><span class="u"><input type="text" id="d5-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 5"> V</span>
-          <span>Art</span><select id="d5-art" aria-label="Spannungsart Gerät 5"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
-          <span>Arbeiten</span><select id="d5-d" aria-label="Entscheidung Gerät 5"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
-        </div>
-      </div>
-
-      <div class="geraet" id="d6">
-        <h4>Gerät 6: Batterieschrank</h4>
-        <p class="taetig">Die Verbindungsleitung zwischen dem Batterieschrank und der großen USV im Serverraum abklemmen.</p>
-        <div class="schild"><div class="marke">Batterieschrank BX-16</div>
-          <div class="zeile">Kapazität: 9 Ah</div>
-          <div class="zeile">16 Blöcke × 12 V<span class="dc"></span> in Reihe</div>
-          <div class="zeile">Gewicht: 68 kg</div>
-        </div>
-        <div class="g-felder">
-          <span>Spannung</span><span class="u"><input type="text" id="d6-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 6"> V</span>
-          <span>Art</span><select id="d6-art" aria-label="Spannungsart Gerät 6"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
-          <span>Arbeiten</span><select id="d6-d" aria-label="Entscheidung Gerät 6"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
-        </div>
-      </div>
-
-      <div class="geraet" id="d7">
-        <h4>Gerät 7: Notebook</h4>
-        <p class="taetig">Den beschädigten Hohlstecker am Kabel zwischen Netzteil und Notebook durch einen neuen ersetzen.</p>
-        <div class="schild"><div class="marke">Notebook-Netzteil NB-90</div>
-          <div class="zeile">INPUT: 100–240 V~ 50/60 Hz 1,5 A</div>
-          <div class="zeile">OUTPUT: 19,5 V<span class="dc"></span> 4,62 A</div>
-          <div class="zeile">Made in China</div>
-        </div>
-        <div class="g-felder">
-          <span>Spannung</span><span class="u"><input type="text" id="d7-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 7"> V</span>
-          <span>Art</span><select id="d7-art" aria-label="Spannungsart Gerät 7"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
-          <span>Arbeiten</span><select id="d7-d" aria-label="Entscheidung Gerät 7"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
-        </div>
-      </div>
-
-      <div class="geraet" id="d8">
-        <h4>Gerät 8: Batteriemodul</h4>
-        <p class="taetig">Die Verbindungsleitung zwischen dem Batteriemodul und der kleinen USV im Netzwerkschrank abklemmen.</p>
-        <div class="schild"><div class="marke">Batteriemodul BP-96</div>
-          <div class="zeile">Nennspannung: 96 V<span class="dc"></span></div>
-          <div class="zeile">Kapazität: 7 Ah</div>
-          <div class="zeile">Gewicht: 24 kg</div>
-        </div>
-        <div class="g-felder">
-          <span>Spannung</span><span class="u"><input type="text" id="d8-u" inputmode="decimal" autocomplete="off" aria-label="Spannung Gerät 8"> V</span>
-          <span>Art</span><select id="d8-art" aria-label="Spannungsart Gerät 8"><option value=""></option><option value="ac">Wechselspannung</option><option value="dc">Gleichspannung</option></select>
-          <span>Arbeiten</span><select id="d8-d" aria-label="Entscheidung Gerät 8"><option value=""></option><option value="n">nicht erlaubt</option><option value="e">erlaubt</option></select>
-        </div>
-      </div>
-
+    <div class="gespraech">
+      <div class="chef"><div class="sprecher">Chef</div><p>Tausch bitte den Lichtschalter neben der Tür gegen diesen Bewegungsmelder.</p></div>
+      <div class="du" id="c-du1"><div class="sprecher">Du</div><p>Das <select id="c1-1" aria-label="Antwort 1, Lücke 1"><option value=""></option><option>darf ich</option><option>darf ich nicht</option></select> machen. Der Lichtschalter ist fest an <select id="c1-2" aria-label="Antwort 1, Lücke 2"><option value=""></option><option>die Ausgangsseite eines Netzteils</option><option>die Hausinstallation</option></select> angeschlossen. Dort liegen <select id="c1-3" aria-label="Antwort 1, Lücke 3"><option value=""></option><option>24 V</option><option>230 V</option><option>50 V</option></select> <select id="c1-4" aria-label="Antwort 1, Lücke 4"><option value=""></option><option>Gleichspannung</option><option>Wechselspannung</option></select> an. Das ist mehr als die Grenze von <select id="c1-5" aria-label="Antwort 1, Lücke 5"><option value=""></option><option>120 V</option><option>50 V</option></select>. Dafür brauchen wir eine Elektrofachkraft.</p></div>
+      <div class="chef"><div class="sprecher">Chef</div><p>Die LED-Leiste in der Kühlvitrine ist zu lang. Kürz sie und klemm sie wieder ans Netzteil. Darfst du das auch nicht?</p><div class="schild"><div class="marke">LED-Netzteil LP-60-24</div><div class="zeile">INPUT: 220–240 V~ 50/60 Hz 0,6 A</div><div class="zeile">OUTPUT: 24 V<span class="dc"></span> 2,5 A</div><div class="zeile">max. 60 W</div></div></div>
+      <div class="du" id="c-du2"><div class="sprecher">Du</div><p>Das <select id="c2-1" aria-label="Antwort 2, Lücke 1"><option value=""></option><option>darf ich nicht</option><option>darf ich</option></select>. Ich arbeite an der <select id="c2-2" aria-label="Antwort 2, Lücke 2"><option value=""></option><option>Eingangsseite</option><option>Ausgangsseite</option></select> des Netzteils. Dort liegen nur <select id="c2-3" aria-label="Antwort 2, Lücke 3"><option value=""></option><option>240 V</option><option>60 V</option><option>24 V</option><option>220 V</option></select> <select id="c2-4" aria-label="Antwort 2, Lücke 4"><option value=""></option><option>Wechselspannung</option><option>Gleichspannung</option></select> an. Vorher ziehe ich trotzdem das Netzteil aus der Steckdose.</p></div>
+      <div class="chef"><div class="sprecher">Chef</div><p>Am Ladegerät des Gabelstaplers ist der Stecker zum Akku abgebrochen. Moment, auf dem Gerät steht 80 V und daneben eine Linie, unter der mehrere Punkte sind. Das ist mehr als 50 V. Lässt du das lieber?</p></div>
+      <div class="du" id="c-du3"><div class="sprecher">Du</div><p>Das <select id="c3-1" aria-label="Antwort 3, Lücke 1"><option value=""></option><option>darf ich</option><option>darf ich nicht</option></select> machen. Die 80 V sind zwar mehr als 50 V, aber am Ladekabel liegt <select id="c3-2" aria-label="Antwort 3, Lücke 2"><option value=""></option><option>Wechselspannung</option><option>Gleichspannung</option></select> an. Dafür gilt eine Grenze von <select id="c3-3" aria-label="Antwort 3, Lücke 3"><option value=""></option><option>50 V</option><option>230 V</option><option>120 V</option></select>. Die 80 V liegen <select id="c3-4" aria-label="Antwort 3, Lücke 4"><option value=""></option><option>darüber</option><option>darunter</option></select>.</p></div>
+      <div class="chef"><div class="sprecher">Chef</div><p>Der Wechselrichter der Solaranlage im Keller soll ins Netzwerk. Schließ das Netzwerkkabel an und zieh die lockeren Leitungen vom Dach gleich mit fest. Auf dem Schild steht dafür max. 1000 V, wieder mit Linie und Punkten.</p></div>
+      <div class="du" id="c-du4"><div class="sprecher">Du</div><p>Das Netzwerkkabel <select id="c4-1" aria-label="Antwort 4, Lücke 1"><option value=""></option><option>darf ich nicht</option><option>darf ich</option></select> anschließen. Die Leitungen vom Dach <select id="c4-2" aria-label="Antwort 4, Lücke 2"><option value=""></option><option>darf ich</option><option>darf ich nicht</option></select> anfassen. Dort liegen bis zu <select id="c4-3" aria-label="Antwort 4, Lücke 3"><option value=""></option><option>80 V</option><option>1000 V</option><option>230 V</option></select> Gleichspannung an, das ist weit mehr als <select id="c4-4" aria-label="Antwort 4, Lücke 4"><option value=""></option><option>50 V</option><option>120 V</option></select>. Abschalten lässt sich das auch nicht einfach, weil <select id="c4-5" aria-label="Antwort 4, Lücke 5"><option value=""></option><option>der Wechselrichter keinen Netzschalter hat</option><option>die Solarmodule Spannung erzeugen, solange Licht auf sie fällt</option><option>im Keller keine Sicherung sitzt</option></select>.</p></div>
+      <div class="chef"><div class="sprecher">Chef</div><p>Zum Schluss: Tausch die Sprechanlage am Eingang gegen eine mit Kamera. Die Leitung kommt vom Klingeltrafo im Sicherungskasten. Auf dem Trafo steht primär 230 V, sekundär 8 V und 12 V, jeweils mit einer Wellenlinie.</p></div>
+      <div class="du" id="c-du5"><div class="sprecher">Du</div><p>Die Sprechanlage <select id="c5-1" aria-label="Antwort 5, Lücke 1"><option value=""></option><option>darf ich nicht</option><option>darf ich</option></select> tauschen. An ihrer Leitung liegen höchstens <select id="c5-2" aria-label="Antwort 5, Lücke 2"><option value=""></option><option>230 V</option><option>12 V</option><option>8 V</option></select> <select id="c5-3" aria-label="Antwort 5, Lücke 3"><option value=""></option><option>Gleichspannung</option><option>Wechselspannung</option></select> an. Das liegt unter <select id="c5-4" aria-label="Antwort 5, Lücke 4"><option value=""></option><option>50 V</option><option>120 V</option></select>. Den Sicherungskasten <select id="c5-5" aria-label="Antwort 5, Lücke 5"><option value=""></option><option>darf ich dafür öffnen</option><option>öffne ich dabei nicht</option></select>, denn dort liegt am Trafo die Netzspannung an.</p></div>
     </div>
-    <div class="answer"><button class="check" data-check="d">Prüfen</button></div>
-    <div class="msg" id="msg-d"></div>
+    <div class="answer"><button class="check" data-check="c">Prüfen</button></div>
+    <div class="msg" id="msg-c"></div>
   </div>
 </section>
 
@@ -585,13 +476,13 @@
     <p>Entscheide, ob eine Fachinformatikerin ohne Zusatzqualifikation die Tätigkeit ausführen darf. Begründe jeweils.</p>
     <div class="scroll"><table class="grid"><tr><th>Tätigkeit</th><th>erlaubt</th><th>nicht erlaubt</th><th>Begründung</th></tr>
       <tr id="a8-row1"><td class="tat">Das Kaltgerätekabel eines Monitors gegen ein neues tauschen</td><td class="rad"><input type="radio" name="a8-r1" id="a8-r1e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r1" id="a8-r1n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b1" contenteditable="true"></div></td></tr>
-      <tr id="a8-row2"><td class="tat">Am abgerissenen Verlängerungskabel einen neuen Schutzkontaktstecker anschrauben</td><td class="rad"><input type="radio" name="a8-r2" id="a8-r2e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r2" id="a8-r2n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b2" contenteditable="true"></div></td></tr>
+      <tr id="a8-row2"><td class="tat">Den Elektroherd in der Teeküche an die Herdanschlussdose anschließen</td><td class="rad"><input type="radio" name="a8-r2" id="a8-r2e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r2" id="a8-r2n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b2" contenteditable="true"></div></td></tr>
       <tr id="a8-row3"><td class="tat">Im Serverraum eine Wandsteckdose gegen eine mit USB-Ladebuchsen tauschen</td><td class="rad"><input type="radio" name="a8-r3" id="a8-r3e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r3" id="a8-r3n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b3" contenteditable="true"></div></td></tr>
       <tr id="a8-row4"><td class="tat">Den Arbeitsspeicher eines vom Netz getrennten PCs tauschen</td><td class="rad"><input type="radio" name="a8-r4" id="a8-r4e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r4" id="a8-r4n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b4" contenteditable="true"></div></td></tr>
       <tr id="a8-row5"><td class="tat">Eine Netzwerkdose in der Wand anschließen</td><td class="rad"><input type="radio" name="a8-r5" id="a8-r5e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r5" id="a8-r5n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b5" contenteditable="true"></div></td></tr>
       <tr id="a8-row6"><td class="tat">Die Deckenleuchte im Büro gegen eine LED-Leuchte tauschen</td><td class="rad"><input type="radio" name="a8-r6" id="a8-r6e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r6" id="a8-r6n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b6" contenteditable="true"></div></td></tr>
       <tr id="a8-row7"><td class="tat">Den Akku eines Notebooks gegen einen neuen tauschen</td><td class="rad"><input type="radio" name="a8-r7" id="a8-r7e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r7" id="a8-r7n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b7" contenteditable="true"></div></td></tr>
-      <tr id="a8-row8"><td class="tat">Im Serverschrank eine Steckdosenleiste fest an die Hausinstallation anklemmen</td><td class="rad"><input type="radio" name="a8-r8" id="a8-r8e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r8" id="a8-r8n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b8" contenteditable="true"></div></td></tr>
+      <tr id="a8-row8"><td class="tat">Im Sicherungskasten einen zusätzlichen Sicherungsautomaten für den Serverraum einbauen</td><td class="rad"><input type="radio" name="a8-r8" id="a8-r8e" value="e" aria-label="erlaubt"></td><td class="rad"><input type="radio" name="a8-r8" id="a8-r8n" value="n" aria-label="nicht erlaubt"></td><td class="bg"><div class="freitext" id="a8-b8" contenteditable="true"></div></td></tr>
     </table></div>
     <div class="answer"><button class="check" data-check="a8">Prüfen</button></div>
     <div class="msg" id="msg-a8"></div>
@@ -599,7 +490,7 @@
 
   <div class="step">
     <h3>Bonus</h3>
-    <p>Dein Betrieb möchte, dass du künftig Steckdosen in Serverschränken selbst anschließen darfst. Beschreibe, wie das möglich wäre.</p><div class="freitext" id="a8-bonus" contenteditable="true" data-platzhalter="Deine Antwort"></div>
+    <p>Dein Betrieb möchte, dass du künftig einfache Elektroarbeiten wie den Tausch von Steckdosen selbst übernehmen darfst. Beschreibe, wie das möglich wäre.</p><div class="freitext" id="a8-bonus" contenteditable="true" data-platzhalter="Deine Antwort"></div>
   </div>
 </section>
 
@@ -787,46 +678,57 @@
     melde("k", r);
   }
 
-  /* Aufgabe 6: Typenschilder. andere: Spannungen auf der falschen Seite des Geräts */
-  var GER = [
-    {u:[5.1], tol:0.05, art:"dc", d:"e", andere:[100, 240]},
-    {u:[230], tol:0.5, art:"ac", d:"n", andere:[72]},
-    {u:[24], tol:0.05, art:"ac", d:"e", andere:[]},
-    {u:[48], tol:0.05, art:"dc", d:"e", andere:[]},
-    {u:[230, 240], tol:0.5, art:"ac", d:"n", andere:[]},
-    {u:[192], tol:0.5, art:"dc", d:"n", andere:[], reihe:true},
-    {u:[19.5], tol:0.05, art:"dc", d:"e", andere:[100, 240]},
-    {u:[96], tol:0.5, art:"dc", d:"e", andere:[]}
-  ];
-  function runD(){
-    var r = neu(), erster = "";
-    GER.forEach(function(g, i){
-      var n = i + 1, card = $("d" + n), offen = [], falsch = [];
-      card.classList.remove("ok", "bad");
-      var fu = $("d" + n + "-u"), fa = $("d" + n + "-art"), fd = $("d" + n + "-d");
-      [fu, fa, fd].forEach(function(x){ x.classList.remove("ok", "bad"); });
-      var u = parse(fu.value);
-      if (u === null) offen.push("Spannung");
-      else {
-        var uOk = !isNaN(u) && g.u.some(function(x){ return near(u, x, g.tol); });
-        mark(fu, uOk);
-        if (!uOk){
-          falsch.push("Spannung");
-          if (!erster && g.reihe) erster = "Gerät " + n + ": Die Blöcke sind in Reihe geschaltet. Was bedeutet das für die Gesamtspannung?";
-          else if (!erster && g.andere.some(function(x){ return near(u, x, 0.5); })) erster = "Gerät " + n + ": Überlege, welche Seite des Geräts du bei dieser Tätigkeit anfasst.";
-        }
-      }
-      if (fa.value === "") offen.push("Art");
-      else { mark(fa, fa.value === g.art); if (fa.value !== g.art) falsch.push("Art"); }
-      if (fd.value === "") offen.push("Arbeiten");
-      else { mark(fd, fd.value === g.d); if (fd.value !== g.d) falsch.push("Arbeiten"); }
-      if (falsch.length) card.classList.add("bad");
-      else if (!offen.length) card.classList.add("ok");
-      if (falsch.length) r.falsch.push("Gerät " + n + " (" + falsch.join(", ") + ")");
-      if (offen.length) r.fehlt.push("Gerät " + n + " (" + offen.join(", ") + ")");
-    });
-    if (erster) r.tipps.push(erster);
-    melde("d", r);
+  /* Aufgabe 6: Gespräch mit dem Chef. Lösung je Lücke, Tipps bei typischen Fehlern */
+  var CHEF = {
+    "c1-1": "darf ich nicht",
+    "c1-2": "die Hausinstallation",
+    "c1-3": "230 V",
+    "c1-4": "Wechselspannung",
+    "c1-5": "50 V",
+    "c2-1": "darf ich",
+    "c2-2": "Ausgangsseite",
+    "c2-3": "24 V",
+    "c2-4": "Gleichspannung",
+    "c3-1": "darf ich",
+    "c3-2": "Gleichspannung",
+    "c3-3": "120 V",
+    "c3-4": "darunter",
+    "c4-1": "darf ich",
+    "c4-2": "darf ich nicht",
+    "c4-3": "1000 V",
+    "c4-4": "120 V",
+    "c4-5": "die Solarmodule Spannung erzeugen, solange Licht auf sie fällt",
+    "c5-1": "darf ich",
+    "c5-2": "12 V",
+    "c5-3": "Wechselspannung",
+    "c5-4": "50 V",
+    "c5-5": "öffne ich dabei nicht"
+  };
+  var CHEF_TIPP = {
+    "c2-3": {"240 V": "Antwort 2: Überlege, welche Seite des Netzteils du anfasst.", "220 V": "Antwort 2: Überlege, welche Seite des Netzteils du anfasst.", "60 V": "Antwort 2: 60 W ist die Leistung, nicht die Spannung."},
+    "c3-3": {"50 V": "Antwort 3: Für Gleichspannung gilt eine andere Grenze als für Wechselspannung."},
+    "c4-4": {"50 V": "Antwort 4: Für Gleichspannung gilt eine andere Grenze als für Wechselspannung."},
+    "c5-2": {"230 V": "Antwort 5: An der Sprechanlage arbeitest du auf der Sekundärseite des Trafos."}
+  };
+  function runC(){
+    var r = neu();
+    for (var a = 1; a <= 5; a++){
+      var falsch = false, offen = false, box = $("c-du" + a);
+      box.classList.remove("ok", "bad");
+      Object.keys(CHEF).forEach(function(id){
+        if (id.indexOf("c" + a + "-") !== 0) return;
+        var el = $(id);
+        el.classList.remove("ok", "bad");
+        if (el.value === ""){ offen = true; return; }
+        var ok = el.value === CHEF[id];
+        mark(el, ok);
+        if (!ok){ falsch = true; if (CHEF_TIPP[id] && CHEF_TIPP[id][el.value]) tipp(r, CHEF_TIPP[id][el.value]); }
+      });
+      if (falsch){ box.classList.add("bad"); r.falsch.push("Antwort " + a); }
+      else if (!offen) box.classList.add("ok");
+      if (offen) r.fehlt.push("Antwort " + a);
+    }
+    melde("c", r);
   }
 
   /* Aufgabe 7: Darf ich das? */
@@ -848,7 +750,7 @@
   Array.prototype.forEach.call(document.querySelectorAll("button.check"), function(btn){
     btn.addEventListener("click", function(){
       var k = btn.getAttribute("data-check");
-      if (k === "a8") runA8(); else if (k === "d") runD(); else if (k === "k") runK(); else run(k, CHECKS[k]);
+      if (k === "a8") runA8(); else if (k === "c") runC(); else if (k === "k") runK(); else run(k, CHECKS[k]);
     });
   });
 
